@@ -1,10 +1,10 @@
 # Plant Aware
 
-Team
-Tiago Melo nºMec:89005
-Pedro Marques nºMec:89069
-José Frias nºMec:89206
-João Nogueira nºMec:89262
+Team<br>
+Tiago Melo nºMec:89005<br>
+Pedro Marques nºMec:89069<br>
+José Frias nºMec:89206<br>
+João Nogueira nºMec:89262<br>
 
-Resources
+Resources<br>
 Pivotal Tracker -> https://www.pivotaltracker.com/n/projects/2410513
