@@ -1,10 +1,10 @@
 # Plant Aware
 
-Team<br>
-Tiago Melo nºMec:89005<br>
-Pedro Marques nºMec:89069<br>
-José Frias nºMec:89206<br>
-João Nogueira nºMec:89262<br>
+## Team<br>
+* Tiago Melo 89005; Team Leader & Product Owner<br>
+* Pedro Marques 89069; Product Owner & Architect<br>
+* José Frias 89206; Architect & DevOps Master<br>
+* João Nogueira 89262; Architect & DevOps Master<br>
 
-Resources<br>
-Pivotal Tracker -> https://www.pivotaltracker.com/n/projects/2410513
+## Backlog<br>
+Pivotal Tracker : https://www.pivotaltracker.com/n/projects/2410513
