@@ -1,0 +1,2 @@
+Bind front-end and back-end with Thymeleaf annotations
+
