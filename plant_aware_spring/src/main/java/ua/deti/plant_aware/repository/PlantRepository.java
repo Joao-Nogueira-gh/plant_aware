@@ -1,0 +1,13 @@
+package ua.deti.plant_aware.repository;
+
+import java.util.*;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import ua.deti.plant_aware.model.*;
+
+@Repository
+public interface PlantRepository extends JpaRepository<Plant, Long>{
+
+}
