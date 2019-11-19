@@ -35,17 +35,30 @@ public class PlantAwareController {
         this.plantRep=plantRep;
         //this.loadEmployeeOnDB();
     }
-    @RequestMapping("/ola")
-    @ResponseBody
-    String index() {
-        return "<h1>Hello, World!</h1>";
-    }
-    
 
-    @GetMapping("/users")
+    @RequestMapping("/")
+    String index() {
+        return "index-4";
+    }
+
+
+
+    @GetMapping("/usersfixes")
     List<User> all() {
         return userRep.findAll();
     }
+
+    @GetMapping("/login")
+    String login() {
+        return "login-register";
+    }
+
+    @GetMapping("/register")
+    String register() {
+        return "register";
+    }
+
+    
     // public User getUser(String user){
     //     return userRep.getUser(user);
     // }
