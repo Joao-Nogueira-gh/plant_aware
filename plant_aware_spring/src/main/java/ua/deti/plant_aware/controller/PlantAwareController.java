@@ -58,7 +58,7 @@ public class PlantAwareController {
         return "register";
     }
 
-    
+
     // public User getUser(String user){
     //     return userRep.getUser(user);
     // }
@@ -78,7 +78,7 @@ public class PlantAwareController {
     //       //.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this email :: " + emailId));
     //     return employee.toString();
     // }
-    
+
     // @PostMapping("/employees")
     // public Employee createEmployee(@Valid @RequestBody Employee employee) {
     //     return employeeRepository.save(employee);
