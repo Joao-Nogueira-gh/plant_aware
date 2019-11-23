@@ -14,9 +14,9 @@ class LoadDatabase {
   @Bean
   CommandLineRunner initDatabase(UserRepository userRep) {
     return args -> {
-      System.out.print("Preloading " + userRep.save(new User("Bilbo Baggins", "password1")));
-      System.out.print("Preloading " + userRep.save(new User("Frodo Baggins", "password2")));
-      System.out.print("Preloading users in local database");
+      // System.out.print("Preloading " + userRep.save(new User("Bilbo Baggins", "password1")));
+      // System.out.print("Preloading " + userRep.save(new User("Frodo Baggins", "password2")));
+      // System.out.print("Preloading users in local database");
     };
   }
 }
