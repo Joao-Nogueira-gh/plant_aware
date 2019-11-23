@@ -33,15 +33,12 @@ public class PlantAwareController {
     PlantAwareController(UserRepository userRep, PlantRepository plantRep) {
         this.userRep=userRep;
         this.plantRep=plantRep;
-        //this.loadEmployeeOnDB();
     }
 
     @RequestMapping("/")
     String index() {
         return "index-4";
     }
-
-
 
     @GetMapping("/usersfixes")
     List<User> all() {
