@@ -60,7 +60,6 @@ public class PlantRepositoryImpl extends MongoTemplate implements PlantRepositor
 
     public PlantRepositoryImpl(MongoDbFactory mongoDbFactory) {
         super(mongoDbFactory);
-        // TODO Auto-generated constructor stub
     }
 
 	@Override

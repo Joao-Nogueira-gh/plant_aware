@@ -30,11 +30,7 @@ public class MQ {
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println(" [x] Received '" + message + "'");
 
-            // Maybe we should have a method here that goes
             rep.handle(message);
-            // And does all the stuff below
-
-
 
         };
         channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { });
