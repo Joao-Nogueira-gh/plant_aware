@@ -1,7 +1,6 @@
 package ua.deti.plant_aware.model;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 

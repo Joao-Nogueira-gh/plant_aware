@@ -8,4 +8,6 @@ import ua.deti.plant_aware.model.*;
 
 @Repository
 public interface PlantRepository extends QueryByExampleExecutor<Plant>, MongoOperations{
+
+	void handle(String message);
 }
