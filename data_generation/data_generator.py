@@ -24,9 +24,9 @@ def send(id_planta,soil, temp,wind):
 
 
 def data_generation():
-    soil=randrange(0,100) #percentage
+    soil=uniform(0,100) #percentage
     temp=uniform(20,22)
-    wind=uniform(0,30)
+    wind=randrange(0,30)
     return soil,temp,wind
 
 
