@@ -9,6 +9,23 @@ import org.springframework.stereotype.Component;
 
 import ua.deti.plant_aware.repository.PlantRepository;
 
+/**
+ * 
+ * Message Queue
+ * Receives messages of type
+ * {
+ *  "id": 1,
+ *  "soil": ...,
+ *  "temp": ...,
+ *  "wind": ...,
+ *  "timestamp": ...
+ * }
+ * 
+ * Maybe its a good idea to add user name to messages sent
+ * 
+ * 
+ */
+
 @Component
 public class MQ {
 
