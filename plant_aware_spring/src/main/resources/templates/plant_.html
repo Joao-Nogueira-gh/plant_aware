@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+            <th> Nome </th>
+            <th> Id </th>
+            <th> Ideal Temp </th>
+            <th> Ideal Soil </th>
+            <th> Ideal Wind</th>
+            <th>Temp</th>
+            <th>Soil</th>
+            <th>Wind</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr  th:each="plant : ${all_plants}">
+            <td><span th:text="${plant.name}">Nome</td>
+            <td><span th:text="${plant.id}">Id</td>
+            <td><span th:text="${plant.ideal_temp}">Ideal Temp</td>
+            <td><span th:text="${plant.ideal_soil}">Ideal Soil</td>
+            <td><span th:text="${plant.ideal_wind}">Ideal Wind</td>
+            <td><span th:text="${#numbers.formatDecimal(plant.temp, 1, 'DEFAULT', 2, 'DEFAULT')}">Temp</td>
+            <td><span th:text="${#numbers.formatDecimal(plant.soil, 1, 'DEFAULT', 2, 'DEFAULT')}">Soil</td>
+            <td><span th:text="${plant.wind}">Wind</td>
+
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

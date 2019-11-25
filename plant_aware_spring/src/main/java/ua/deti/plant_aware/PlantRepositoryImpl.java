@@ -64,7 +64,7 @@ public class PlantRepositoryImpl extends MongoTemplate implements PlantRepositor
 
     @Override
     public void handle(String message) {
-        
+
         // Converting message from JSON to a HashMap
         HashMap<String, Object> hm = new HashMap<>(Utility.jsonToMap(message));
         System.out.println(hm);
@@ -78,9 +78,9 @@ public class PlantRepositoryImpl extends MongoTemplate implements PlantRepositor
 
 
         // Deciding if this a CREATE or UPDATE
-        if(!this.exists(new Query(where("plant_id").is(plant.getId())), "main"))
+        if(!this.exists(new Query(where("id").is(plant.getId())), "main"))
         {
-            this.dropCollection("main");
+            // this.dropCollection("main");
             System.out.println("Saving " + this.insert(plant));
         }
         else
@@ -90,6 +90,6 @@ public class PlantRepositoryImpl extends MongoTemplate implements PlantRepositor
 
     }
 
-    
+
 
 }

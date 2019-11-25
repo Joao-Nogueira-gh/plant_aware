@@ -5,11 +5,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.*;
+import org.springframework.ui.Model;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import ua.deti.plant_aware.repository.*;
 import ua.deti.plant_aware.model.*;
@@ -48,15 +49,21 @@ public class PlantAwareController {
 
         return "register";
     }
+    @GetMapping("/plant_db")
+public String all_plants(Model model) {
+    model.addAttribute("all_plants", plantRep.findAll(Plant.class));
+    return "plant_";
+}
 
-    
+
+    /*
     @GetMapping("/all_plants")
-    @ResponseBody
+    //@ResponseBody
     List<Plant> get_plants() {
         // plantRep.save(new Plant("tulipinha")); // uncomment for debugging
         return plantRep.findAll(Plant.class);
     }
-
+*/
 
     // public User getUser(String user){
     //     return userRep.getUser(user);

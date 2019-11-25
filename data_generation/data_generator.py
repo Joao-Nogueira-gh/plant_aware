@@ -11,6 +11,8 @@ def main():
         (soil,temp,wind)=data_generation()
         #send json to message queue
         send(id_planta, soil,temp,wind)
+        (newsoil, newtemp, newwind)=data_generation()
+        send(2, newsoil, newtemp, newwind)
         time.sleep(5)
     connection.close()
 
