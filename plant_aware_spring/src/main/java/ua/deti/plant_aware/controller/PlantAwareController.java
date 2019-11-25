@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.*;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,8 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.thymeleaf.TemplateEngine;
 
 import ua.deti.plant_aware.repository.*;
+import ua.deti.plant_aware.IController;
+import ua.deti.plant_aware.PlantAwareApplication;
 import ua.deti.plant_aware.model.*;
 
 @Controller
@@ -31,17 +38,15 @@ public class PlantAwareController {
     private final PlantRepository plantRep;
 
     PlantAwareController(UserRepository userRep, PlantRepository plantRep) {
-        this.userRep=userRep;
-        this.plantRep=plantRep;
-        //this.loadEmployeeOnDB();
+        this.userRep = userRep;
+        this.plantRep = plantRep;
+        // this.loadEmployeeOnDB();
     }
 
     @RequestMapping("/")
     String index() {
         return "index-4";
     }
-
-
 
     @GetMapping("/usersfixes")
     List<User> all() {
