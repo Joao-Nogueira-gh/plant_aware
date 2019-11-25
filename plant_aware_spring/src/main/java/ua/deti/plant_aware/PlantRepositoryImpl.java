@@ -46,6 +46,7 @@ import org.springframework.data.mongodb.core.query.NearQuery;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.data.util.CloseableIterator;
+import org.springframework.stereotype.Component;
 
 import ua.deti.plant_aware.model.Plant;
 import ua.deti.plant_aware.repository.*;
@@ -55,48 +56,11 @@ import ua.deti.plant_aware.util.*;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import org.springframework.data.mongodb.core.query.Query;
 
-
 public class PlantRepositoryImpl extends MongoTemplate implements PlantRepository {
 
     public PlantRepositoryImpl(MongoDbFactory mongoDbFactory) {
         super(mongoDbFactory);
     }
-
-	@Override
-	public <S extends Plant> Optional<S> findOne(Example<S> example) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <S extends Plant> Iterable<S> findAll(Example<S> example) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <S extends Plant> Iterable<S> findAll(Example<S> example, Sort sort) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <S extends Plant> Page<S> findAll(Example<S> example, Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <S extends Plant> long count(Example<S> example) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public <S extends Plant> boolean exists(Example<S> example) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
     @Override
     public void handle(String message) {
