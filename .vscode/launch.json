@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - MQ",
+            "request": "launch",
+            "mainClass": "ua.deti.plant_aware.MQ",
+            "projectName": "plant_aware"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - PlantAwareApplication",
             "request": "launch",
             "mainClass": "ua.deti.plant_aware.PlantAwareApplication",
