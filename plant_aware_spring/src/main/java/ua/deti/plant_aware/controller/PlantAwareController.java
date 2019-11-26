@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.*;
-
+import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,6 +52,12 @@ public class PlantAwareController {
     List<Plant> all_plants() {
         return plantRep.findAll(Plant.class);
     }
+
+    @GetMapping("/plant_db")
+public String all_plants(Model model) {
+    model.addAttribute("all_plants", plantRep.findAll(Plant.class));
+    return "plant_";
+}
 
 
     // public User getUser(String user){
