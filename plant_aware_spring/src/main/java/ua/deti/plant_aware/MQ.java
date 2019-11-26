@@ -21,7 +21,6 @@ import ua.deti.plant_aware.repository.PlantRepository;
  *  "timestamp": ...
  * }
  * 
- * Maybe its a good idea to add user name to messages sent
  * 
  * 
  */
