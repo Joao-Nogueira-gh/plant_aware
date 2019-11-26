@@ -1,6 +1,12 @@
+## Script that emulates a sensor placed inside a vase
+# Sends water levels on the soil, temperature and wind speed values
+# All messages MUST be timestamped
+
+
 import time
 import json
 import pika
+import calendar
 from random import uniform,randrange
 connection=pika.BlockingConnection(pika.ConnectionParameters('localhost'))
 channel=connection.channel()
@@ -18,7 +24,7 @@ def main():
 
 def send(id_planta,soil, temp,wind):
     #create json
-    d={"plant_id": id_planta, "soil":soil,"temp":temp,"wind":wind}
+    d={"plant_id": id_planta, "soil":soil,"temp":temp,"wind":wind, "timestamp": str(calendar.timegm(time.gmtime()))}
     y=json.dumps(d)
     channel.basic_publish(exchange='', routing_key='plants_info',body=y)
     print ("Sending "+y)
