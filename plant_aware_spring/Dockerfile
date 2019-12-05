@@ -1,10 +1,19 @@
-FROM ubuntu
+# Start with base image
+FROM openjdk:8-jdk-alpine
+
+# Add a temporary volume
 VOLUME /tmp
-ARG JAR_FILE=target/*.jar
-COPY install_rmq.sh .
-RUN chmod u+x install_rmq.sh
-RUN apt-get update && apt-get install sudo
-RUN ./install_rmq.sh
-RUN apt-get install openjdk-8-jdk
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+
+# Expose Port 8080
+EXPOSE 8080
+
+
+# Application Jar File
+ARG JAR_FILE=target/plant_aware-0.0.1-SNAPSHOT.jar
+
+
+# Add Application Jar File to the Container
+ADD ${JAR_FILE} plant_aware.jar
+
+# Run the JAR file
+ENTRYPOINT ["java", "-jar", "/plant_aware.jar"]

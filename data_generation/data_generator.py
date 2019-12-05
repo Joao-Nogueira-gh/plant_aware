@@ -8,7 +8,8 @@ import json
 import pika
 import calendar
 from random import uniform,randrange
-connection=pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+
+connection=pika.BlockingConnection(pika.ConnectionParameters('localhost', 5671))
 channel=connection.channel()
 channel.queue_declare(queue='plants_info')
 def main():
