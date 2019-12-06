@@ -15,5 +15,8 @@ ARG JAR_FILE=target/plant_aware-0.0.1-SNAPSHOT.jar
 # Add Application Jar File to the Container
 ADD ${JAR_FILE} plant_aware.jar
 
+COPY wait-for-it.sh wait-for-it.sh 
+RUN chmod +x wait-for-it.sh
+
 # Run the JAR file
 ENTRYPOINT ["java", "-jar", "/plant_aware.jar"]

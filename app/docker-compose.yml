@@ -1,0 +1,20 @@
+version: "2"
+services:
+  rabbit:
+    image: rabbitmq:management
+    ports:
+       - "5671:5672"
+       - "15672:15672"
+
+  db:
+    image: mongo
+    ports:
+     - 27016:27017
+
+  spring:
+    build: .
+    depends_on:
+      - db
+      - rabbit
+    ports:
+      - "8080:8080"

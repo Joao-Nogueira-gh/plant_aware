@@ -24,7 +24,8 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
 public class PlantRepositoryImpl extends MongoTemplate implements PlantRepository {
 
     public PlantRepositoryImpl(MongoDbFactory mongoDbFactory) {
-        super(mongoDbFactory);
+		super(mongoDbFactory);
+		
     }
 
     public void handle(String message) {

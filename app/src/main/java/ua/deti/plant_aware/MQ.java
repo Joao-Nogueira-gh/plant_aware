@@ -33,7 +33,7 @@ public class MQ {
     public MQ(PlantRepository rep) throws Exception{
 
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("172.17.0.2");
+        factory.setHost("rabbit");
         factory.setPort(5672);
 
         Connection connection = factory.newConnection();

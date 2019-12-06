@@ -11,13 +11,7 @@ Pivotal Tracker : https://www.pivotaltracker.com/n/projects/2410513
 
 ## To Run
 
-# Starting RabbitMQ
-cd rmq
+```bash
+cd app
 docker-compose up
-
-# In a new terminal, start MongoDB
-cd ../mongo
-docker run 27016:27017 mongo
-
-# In a new terminal, run the App
-docker run -p 8080:8080 tiagoleonmelo/plant_aware
+```
