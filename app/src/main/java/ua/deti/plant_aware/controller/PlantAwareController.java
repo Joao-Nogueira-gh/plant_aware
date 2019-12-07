@@ -23,8 +23,9 @@ public class PlantAwareController {
     private final PlantRepository plantRep;
 
     PlantAwareController(UserRepository userRep, PlantRepository plantRep) {
-        this.userRep=userRep;
-        this.plantRep=plantRep;
+        this.userRep = userRep;
+        this.plantRep = plantRep;
+        // this.loadEmployeeOnDB();
     }
 
     @RequestMapping("/")
@@ -53,8 +54,15 @@ public class PlantAwareController {
 
     @GetMapping("/register")
     String register() {
+
         return "register";
     }
+    @GetMapping("/plant_db")
+public String get_plants(Model model) {
+    model.addAttribute("all_plants", plantRep.findAll(Plant.class));
+    return "plant_";
+}
+
 
     @GetMapping("/all_plants")
     @ResponseBody

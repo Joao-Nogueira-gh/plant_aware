@@ -9,6 +9,6 @@ public class PlantAwareApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PlantAwareApplication.class, args);
-	}
-
+    }
+    
 }
