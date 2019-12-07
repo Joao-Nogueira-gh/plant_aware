@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Dashboards Four | Notika - Notika Admin Template</title>
+    <title>Plant Aware</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- favicon
@@ -679,15 +679,15 @@
     <!-- POR CADA PLANTA VAMOS PRECISAR DE UM DESTES (knockout?)-->
 
     <!-- Start Charts area-->
-    <div class="notika-email-post-area" style="padding-top: 30px;">
+    <div class="notika-email-post-area" style="padding-top: 30px;" th:each="plant : ${all_plants}">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
                         <div class="email-statis-inner notika-shadow">
                             <div class="email-ctn-round">
                                 <div class="email-rdn-hd">
-                                    <h2>Planta #1</h2>
-                                    <h2>Data from the last 24h</h2>
+                                    <h1 th:text="${plant.name}">Nome da Planta</h1>
+                                    <h3>Data from the last 24h</h3>
                                     <button class="btn btn-default notika-btn-default">Remover</button>
                                     <button class="btn btn-default notika-btn-danger">Editar</button>
                                 </div>

@@ -28,7 +28,17 @@ public class PlantAwareController {
     }
 
     @RequestMapping("/")
-    String index() {
+    String index(Model model) {
+        model.addAttribute("all_plants", plantRep.findAll(Plant.class));
+
+        // OK FUCKERS
+        // TEMOS DE DAR FETCH AO USER DESTA SESSAO
+        // DAR FETCH AS PLANTAS DO USER
+        // FOR EACH PLANTA
+        // PASS EVERY DATA WE HAVE ABOUT IT
+
+
+        model.addAttribute("ideal_water", plantRep.findAll(Plant.class))
         return "index-4";
     }
 
@@ -54,10 +64,10 @@ public class PlantAwareController {
     }
 
     @GetMapping("/plant_db")
-public String all_plants(Model model) {
-    model.addAttribute("all_plants", plantRep.findAll(Plant.class));
-    return "plant_";
-}
+    public String all_plants(Model model) {
+        model.addAttribute("all_plants", plantRep.findAll(Plant.class));
+        return "plant_";
+    }
 
 
     // public User getUser(String user){

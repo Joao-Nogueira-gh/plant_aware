@@ -48,6 +48,10 @@ public class MQ {
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println(" [x] Received '" + message + "'");
 
+            // temos de tratar de maneira diferente msgs diferentes
+            // vamos ter { type: REGISTER USER } e { type: PLANT UPDATE }
+            // 
+
             rep.handle(message);
 
         };
