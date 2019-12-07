@@ -32,37 +32,52 @@ public class PlantRepositoryImpl extends MongoTemplate implements PlantRepositor
         
         // Converting message from JSON to a HashMap
 		HashMap<String, Object> hm = new HashMap<>(Utility.jsonToMap(message));
-		String timestamp = (String) hm.get("timestamp");
-		long id = ((Integer) hm.get("plant_id")).longValue();
-		Plant plant;
 
-        
-		// Deciding if this a CREATE or UPDATE
-		if( this.findOne(new Query(where("id").is(id)), Plant.class) == null)
-        {
-			// Constructing the object that will be saved
-			plant = new Plant("Tulipa"); // Hardcoded "Tulipa", will later be sent by Sensor
-			plant.addTemp(timestamp, (double) hm.get("temp"));
-			plant.addSoil(timestamp, (double) hm.get("soil"));
-			plant.addWind(timestamp, (int) hm.get("wind"));
-			plant.setId(((Integer) hm.get("plant_id")).longValue());
-            System.out.println("Adding " + this.insert(plant) + " to database");
-        }
-        else
-        {
+		String type = (String) hm.get("type");
 
-			plant = this.findOne(new Query(where("id").is(id)), Plant.class);
-
-			plant.addTemp(timestamp, (double) hm.get("temp"));
-			plant.addSoil(timestamp, (double) hm.get("soil"));
-			plant.addWind(timestamp, (int) hm.get("wind"));
-
-			// TODO: Switch this to an update
-			// this.updateFirst(new Query(where("id").is(id)), new Update().push("key", value), Plant.class);
-			this.remove(new Query(where("id").is(id)), Plant.class);
-			this.insert(plant);
+		switch (type) {
+			case "PLANT_UPDATE":
+				String timestamp = (String) hm.get("timestamp");
+				long id = ((Integer) hm.get("plant_id")).longValue();
+				Plant plant;
 		
+				
+				// Deciding if this a CREATE or UPDATE
+				if( this.findOne(new Query(where("id").is(id)), Plant.class) == null)
+				{
+					// Constructing the object that will be saved
+					plant = new Plant("Tulipa"); // Hardcoded "Tulipa", will later be sent by Sensor
+					plant.addTemp(timestamp, (double) hm.get("temp"));
+					plant.addSoil(timestamp, (double) hm.get("soil"));
+					plant.addWind(timestamp, (int) hm.get("wind"));
+					plant.setId(((Integer) hm.get("plant_id")).longValue());
+					System.out.println("Adding " + this.insert(plant) + " to database");
+				}
+				else
+				{
+		
+					plant = this.findOne(new Query(where("id").is(id)), Plant.class);
+		
+					plant.addTemp(timestamp, (double) hm.get("temp"));
+					plant.addSoil(timestamp, (double) hm.get("soil"));
+					plant.addWind(timestamp, (int) hm.get("wind"));
+		
+					// TODO: Switch this to an update
+					// this.updateFirst(new Query(where("id").is(id)), new Update().push("key", value), Plant.class);
+					this.remove(new Query(where("id").is(id)), Plant.class);
+					this.insert(plant);
+				
+				}
+				break;
+
+			case "REGISTER_USER":
+				break;
+		
+			default:
+				break;
 		}
+
+		
 
     }
 

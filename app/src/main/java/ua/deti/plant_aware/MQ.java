@@ -12,15 +12,6 @@ import ua.deti.plant_aware.repository.PlantRepository;
 /**
  * 
  * Message Queue
- * Receives messages of type
- * {
- *  "id": 1,
- *  "soil": ...,
- *  "temp": ...,
- *  "wind": ...,
- *  "timestamp": ...
- * }
- * 
  * 
  * 
  */
@@ -51,7 +42,7 @@ public class MQ {
             // temos de tratar de maneira diferente msgs diferentes
             // vamos ter { type: REGISTER USER } e { type: PLANT UPDATE }
             // 
-
+        
             rep.handle(message);
 
         };

@@ -31,14 +31,13 @@ public class PlantAwareController {
     String index(Model model) {
         model.addAttribute("all_plants", plantRep.findAll(Plant.class));
 
-        // OK FUCKERS
         // TEMOS DE DAR FETCH AO USER DESTA SESSAO
         // DAR FETCH AS PLANTAS DO USER
         // FOR EACH PLANTA
         // PASS EVERY DATA WE HAVE ABOUT IT
 
 
-        model.addAttribute("ideal_water", plantRep.findAll(Plant.class))
+        model.addAttribute("ideal_water", plantRep.findAll(Plant.class));
         return "index-4";
     }
 
