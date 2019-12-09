@@ -3,14 +3,14 @@ package ua.deti.plant_aware.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import ua.deti.plant_aware.login.Login;
 import java.util.*;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.GetMapping;
-
-
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import ua.deti.plant_aware.repository.*;
 import ua.deti.plant_aware.model.*;
 
@@ -37,10 +37,6 @@ public class PlantAwareController {
         return userRep.findAll();
     }
 
-    @GetMapping("/login")
-    String login() {
-        return "login-register";
-    }
 
     @GetMapping("/register")
     String register() {
@@ -58,6 +54,18 @@ public String all_plants(Model model) {
     model.addAttribute("all_plants", plantRep.findAll(Plant.class));
     return "plant_";
 }
+    //Login
+    @GetMapping("/login")
+    public String loginForm(Model model){
+      model.addAttribute("login", new Login());
+      return "login";
+    }
+
+    @PostMapping("/login")
+  public String loginSubmit(@ModelAttribute Login login) {
+    return "index-4";
+  }
+
 
 
     // public User getUser(String user){
