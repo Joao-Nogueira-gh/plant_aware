@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import ua.deti.plant_aware.repository.PlantRepository;
 
 /**
- * 
+ *
  * Message Queue
  * Receives messages of type
  * {
@@ -20,9 +20,9 @@ import ua.deti.plant_aware.repository.PlantRepository;
  *  "wind": ...,
  *  "timestamp": ...
  * }
- * 
- * 
- * 
+ *
+ *
+ *
  */
 
 @Component
@@ -33,8 +33,8 @@ public class MQ {
     public MQ(PlantRepository rep) throws Exception{
 
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("rabbit");
-        factory.setPort(5672);
+        factory.setHost("localhost");
+        //factory.setPort(5672);
 
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
