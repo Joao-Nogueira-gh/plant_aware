@@ -24,8 +24,7 @@ public class MQ {
     public MQ(PlantRepository rep) throws Exception{
 
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("rabbit");
-        factory.setPort(5672);
+        factory.setHost("localhost");
 
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();

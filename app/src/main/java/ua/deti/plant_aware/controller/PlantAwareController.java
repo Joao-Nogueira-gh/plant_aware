@@ -9,7 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import ua.deti.plant_aware.repository.*;
 import ua.deti.plant_aware.model.*;
@@ -20,6 +21,7 @@ public class PlantAwareController {
 
     @Autowired
     private final UserRepository userRep;
+    @Autowired
     private final PlantRepository plantRep;
 
     PlantAwareController(UserRepository userRep, PlantRepository plantRep) {
@@ -28,6 +30,18 @@ public class PlantAwareController {
         // this.loadEmployeeOnDB();
     }
 
+
+
+    /**
+     * 
+     * 
+     * Main Page
+     * Dashboard
+     * 
+     * Needs to pass along data collected in the last 24 for each user plant
+     * And data from the last 7 days. All averaged together.
+     * 
+     */
     @RequestMapping("/")
     String index(Model model) {
         model.addAttribute("all_plants", plantRep.findAll(Plant.class));
@@ -42,28 +56,44 @@ public class PlantAwareController {
         return "index-4";
     }
 
-    @GetMapping("/usersfixes")
-    List<User> all() {
-        return userRep.findAll();
-    }
 
+    /**
+     * 
+     * 
+     * Login GET
+     * Passes along error messages if needed
+     * 
+     */
     @GetMapping("/login")
     String login() {
         return "login-register";
     }
 
+
+
     @GetMapping("/register")
-    String register() {
+    String register(Model model) {
+        model.addAttribute("user", new User());
 
         return "register";
     }
-    @GetMapping("/plant_db")
-public String get_plants(Model model) {
-    model.addAttribute("all_plants", plantRep.findAll(Plant.class));
-    return "plant_";
-}
+
+    @PostMapping("/register")
+    String registerUser(@ModelAttribute User user){
+        // this.plantRep.findOne(user.getUsername());
+        System.out.println("i hate this\n\n");
+        return "login-register";
+    }
 
 
+
+    /**
+     * 
+     * 
+     * Database operations:
+     * Mostly for raw data display
+     * 
+     */
     @GetMapping("/all_plants")
     @ResponseBody
     List<Plant> all_plants() {

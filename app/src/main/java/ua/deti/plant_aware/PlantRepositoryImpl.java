@@ -66,7 +66,7 @@ public class PlantRepositoryImpl extends MongoTemplate implements PlantRepositor
 					// this.updateFirst(new Query(where("id").is(id)), new Update().push("key", value), Plant.class);
 					this.remove(new Query(where("id").is(id)), Plant.class);
 					this.insert(plant);
-				
+									
 				}
 				break;
 
