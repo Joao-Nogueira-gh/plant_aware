@@ -35,6 +35,7 @@ public class PlantRepositoryImpl extends MongoTemplate implements PlantRepositor
 		HashMap<String, Object> hm = new HashMap<>(Utility.jsonToMap(message));
 		String type = (String) hm.get("type");
 		String timestamp = (String) hm.get("timestamp");
+		Listener listener = new Listener();
 		long id;
 		String owner;
 		User user;
@@ -54,7 +55,10 @@ public class PlantRepositoryImpl extends MongoTemplate implements PlantRepositor
 					if(p.getId() == id){
 						p.addTemp(timestamp, (double) hm.get("temp"));
 						p.addSoil(timestamp, (double) hm.get("soil"));
-						p.addWind(timestamp, (double) hm.get("wind"));						
+						p.addWind(timestamp, (double) hm.get("wind"));
+						
+						listener.process(p, (double) hm.get("temp"), (double) hm.get("soil"), (double) hm.get("wind"));
+						// Get warnings and add them to the database
 						break;
 					}
 				}

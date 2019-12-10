@@ -57,8 +57,30 @@ public class PlantAwareController {
         }
         System.out.println(u);
         System.out.println(u.getPlants());
+        model.addAttribute("welcome_str", "Welcome, Plant_Lover99!");
         model.addAttribute("avg_happ", u.averageHappiness());
         model.addAttribute("all_plants", u.getPlants());
+
+        ArrayList<HashMap<String, Double>> data = new ArrayList<>();
+        HashMap<String, Double> hm;
+        for (String key : u.getPlants().get(0).getSoil().keySet() ){
+            hm = new HashMap<>();
+            hm.put("x", Double.parseDouble(key));
+            hm.put("y", u.getPlants().get(0).getSoil().get(key));
+            data.add(hm);
+        }
+
+        data.sort(new MapComparator("x"));
+        int count = 0;
+        for (HashMap<String,Double> hashMap : data) {
+
+            hashMap.put("x", (double) count);
+            count++;
+            
+        }
+
+        System.out.println(data);
+        model.addAttribute("chart_data", data.toArray());
         // model.addAllAttributes(attributeValues)
 
         // TEMOS DE DAR FETCH AO USER DESTA SESSAO
@@ -109,64 +131,34 @@ public class PlantAwareController {
      */
     @GetMapping("/all_plants")
     @ResponseBody
-    List<Plant> all_plants() {
-        return plantRep.findAll(Plant.class);
+    List<User> all_plants() {
+        return plantRep.findAll(User.class);
     }
 
-    @GetMapping("/plant_db")
-    public String all_plants(Model model) {
-        model.addAttribute("all_plants", plantRep.findAll(Plant.class));
-        return "plant_";
+    // @GetMapping("/plant_db")
+    // public String all_plants(Model model) {
+    //     model.addAttribute("all_plants", plantRep.findAll(Plant.class));
+    //     return "plant_";
+    // }
+
+}
+
+class MapComparator implements Comparator<Map<String, Double>>
+{
+    private final String key;
+
+    public MapComparator(String key)
+    {
+        this.key = "x";
     }
 
-
-    // public User getUser(String user){
-    //     return userRep.getUser(user);
-    // }
-
-    // @GetMapping("/employees/{id}")
-    // public ResponseEntity<Employee> getEmployeeById(@PathVariable(value = "id") Long employeeId)
-    //     throws ResourceNotFoundException {
-    //     Employee employee = employeeRepository.findById(employeeId)
-    //       .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
-    //     return ResponseEntity.ok().body(employee);
-    // }
-    // @GetMapping("/employees/email")
-    // @ResponseBody
-    // public String findByEmailId(@RequestParam(required = false, name = "email") String emailId)
-    //     throws ResourceNotFoundException {
-    //     Employee employee = employeeRepository.findByEmailId(emailId);
-    //       //.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this email :: " + emailId));
-    //     return employee.toString();
-    // }
-
-    // @PostMapping("/employees")
-    // public Employee createEmployee(@Valid @RequestBody Employee employee) {
-    //     return employeeRepository.save(employee);
-    // }
-
-    // @PutMapping("/employees/{id}")
-    // public ResponseEntity<Employee> updateEmployee(@PathVariable(value = "id") Long employeeId,
-    //      @Valid @RequestBody Employee employeeDetails) throws ResourceNotFoundException {
-    //     Employee employee = employeeRepository.findById(employeeId)
-    //     .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
-
-    //     employee.setEmailId(employeeDetails.getEmailId());
-    //     employee.setLastName(employeeDetails.getLastName());
-    //     employee.setFirstName(employeeDetails.getFirstName());
-    //     final Employee updatedEmployee = employeeRepository.save(employee);
-    //     return ResponseEntity.ok(updatedEmployee);
-    // }
-
-    // @DeleteMapping("/employees/{id}")
-    // public Map<String, Boolean> deleteEmployee(@PathVariable(value = "id") Long employeeId)
-    //      throws ResourceNotFoundException {
-    //     Employee employee = employeeRepository.findById(employeeId)
-    //    .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
-
-    //     employeeRepository.delete(employee);
-    //     Map<String, Boolean> response = new HashMap<>();
-    //     response.put("deleted", Boolean.TRUE);
-    //     return response;
-    // }
+    @Override
+    public int compare(Map<String, Double> first,
+                       Map<String, Double> second)
+    {
+        // TODO: Null checking, both for maps and values
+        Double firstValue = first.get(key);
+        Double secondValue = second.get(key);
+        return firstValue.compareTo(secondValue);
+    }
 }

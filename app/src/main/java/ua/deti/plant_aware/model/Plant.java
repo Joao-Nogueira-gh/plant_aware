@@ -81,6 +81,24 @@ public class Plant {
         this.wind=wind;
     }
 
+    public double getIdealSoil()
+    {
+        return this.ideal_soil;
+    }
+
+    public double getIdealTemp()
+    {
+        return this.ideal_temp;
+    }
+
+    public double getIdealWind()
+    {
+        return this.ideal_wind;
+    }
+
+
+
+
     @Override
     public String toString() {
         return "Plant [Plantname=" + name + "]";
