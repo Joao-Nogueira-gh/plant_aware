@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ua.deti.plant_aware.login.Login;
+import ua.deti.plant_aware.register.Register;
 import java.util.*;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,16 +33,8 @@ public class PlantAwareController {
         return "index-4";
     }
 
-    @GetMapping("/usersfixes")
-    List<User> all() {
-        return userRep.findAll();
-    }
 
 
-    @GetMapping("/register")
-    String register() {
-        return "register";
-    }
 
     @GetMapping("/all_plants")
     @ResponseBody
@@ -64,6 +57,28 @@ public String all_plants(Model model) {
     @PostMapping("/login")
   public String loginSubmit(@ModelAttribute Login login) {
     return "index-4";
+  }
+
+  //Register
+  @GetMapping("/register")
+  public String registerForm(Model model){
+    model.addAttribute("registo", new Register());
+    return "register_v2";
+
+  }
+  @PostMapping("/registo")
+  @ResponseBody
+public String registerSubmit(@ModelAttribute Register registo) {
+  User u = new User(registo.getUsername(),registo.getPassword());
+  userRep.save(u);
+  System.out.println(u.getUsername());
+  System.out.println("User inserido");
+  return "User Registado";
+}
+  @GetMapping("/users")
+  @ResponseBody
+  List<User> all() {
+      return userRep.findAll();
   }
 
 

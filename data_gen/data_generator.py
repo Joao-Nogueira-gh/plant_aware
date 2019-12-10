@@ -9,7 +9,7 @@ import pika
 import calendar
 from random import uniform,randrange
 
-connection=pika.BlockingConnection(pika.ConnectionParameters('localhost', 5671))
+connection=pika.BlockingConnection(pika.ConnectionParameters('localhost', 5672))
 channel=connection.channel()
 channel.queue_declare(queue='plants_info')
 def main():
