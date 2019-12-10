@@ -44,7 +44,21 @@ public class PlantAwareController {
      */
     @RequestMapping("/")
     String index(Model model) {
-        model.addAttribute("all_plants", plantRep.findAll(Plant.class));
+        List<User> l = plantRep.findAll(User.class);
+        User u = new User();
+
+        for (User utilizador : l) {
+            System.out.println(utilizador);
+            if(utilizador.getUsername().equals("Plant_Lover99"))
+            {
+                u = utilizador;
+                break;
+            }
+        }
+        System.out.println(u);
+        System.out.println(u.getPlants());
+        model.addAttribute("all_plants", u.getPlants());
+        // model.addAllAttributes(attributeValues)
 
         // TEMOS DE DAR FETCH AO USER DESTA SESSAO
         // DAR FETCH AS PLANTAS DO USER
@@ -52,7 +66,7 @@ public class PlantAwareController {
         // PASS EVERY DATA WE HAVE ABOUT IT
 
 
-        model.addAttribute("ideal_water", plantRep.findAll(Plant.class));
+        // model.addAttribute("ideal_water", plantRep.findAll(Plant.class));
         return "index-4";
     }
 
@@ -80,8 +94,6 @@ public class PlantAwareController {
 
     @PostMapping("/register")
     String registerUser(@ModelAttribute User user){
-        // this.plantRep.findOne(user.getUsername());
-        System.out.println("i hate this\n\n");
         return "login-register";
     }
 

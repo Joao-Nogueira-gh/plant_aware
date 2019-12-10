@@ -41,6 +41,7 @@ public class MQ {
             // temos de tratar de maneira diferente msgs diferentes
             // vamos ter { type: REGISTER USER } e { type: PLANT UPDATE }
             // 
+
         
             rep.handle(message);
 

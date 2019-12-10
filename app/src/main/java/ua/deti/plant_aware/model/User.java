@@ -1,5 +1,9 @@
 package ua.deti.plant_aware.model;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Getter;
@@ -11,6 +15,7 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private ArrayList<Plant> plants;
  
     public User() {
   
@@ -20,10 +25,11 @@ public class User {
          this.username=username;
          this.password=password;
          this.email=email;
+         this.plants = new ArrayList<Plant>();
     }
 
     public String getUsername() {
-        return username;
+        return this.username;
     }
     public void setUsername(String username) {
         this.username=username;
@@ -43,9 +49,19 @@ public class User {
         this.email=email;
     }
 
+    public ArrayList<Plant> getPlants() {
+        return this.plants;
+    }
+    public void setPlants(ArrayList<Plant> plants) {
+        this.plants=plants;
+    }
+    public void addPlant(Plant p){
+        this.plants.add(p);
+    }
+
     @Override
     public String toString() {
-        return "User [username=" + username + "]";
+        return "User [username=" + username + "] " + this.plants;
     }
  
 }
