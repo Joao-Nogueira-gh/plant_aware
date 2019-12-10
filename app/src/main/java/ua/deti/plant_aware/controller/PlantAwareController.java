@@ -81,6 +81,11 @@ public String registerSubmit(@ModelAttribute Register registo) {
       return userRep.findAll();
   }
 
+  @GetMapping("/chart")
+  public String getChart(Model model){
+    model.addAttribute("all_info", plantRep.findAll(Plant.class));
+    return "chart";
+  }
 
 
     // public User getUser(String user){
