@@ -59,6 +59,16 @@ public class User {
         this.plants.add(p);
     }
 
+    public int averageHappiness()
+    {
+        double sum = 0;
+        for (Plant plant : this.plants) {
+            sum += plant.getHappiness();
+        }
+
+        return (int) Math.floor(sum/this.plants.size());
+    }
+
     @Override
     public String toString() {
         return "User [username=" + username + "] " + this.plants;

@@ -57,6 +57,7 @@ public class PlantAwareController {
         }
         System.out.println(u);
         System.out.println(u.getPlants());
+        model.addAttribute("avg_happ", u.averageHappiness());
         model.addAttribute("all_plants", u.getPlants());
         // model.addAllAttributes(attributeValues)
 

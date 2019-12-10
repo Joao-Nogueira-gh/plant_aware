@@ -308,7 +308,7 @@
 							</div>
                             <div class="email-statis-wrap">
                                 <div class="email-round-nock">
-                                    <input type="text" class="knob" value="0" data-rel="55" data-linecap="round" data-width="130" data-bgcolor="#E4E4E4" data-fgcolor="#00c292" data-thickness=".10" data-readonly="true">
+                                    <input type="text" class="knob" th:value="${avg_happ}" data-linecap="round" data-width="130" data-bgcolor="#E4E4E4" data-fgcolor="#00c292" data-thickness=".10" data-readonly="true">
                                 </div>
                                 <div class="email-ctn-nock">
                                     <p>Average Happiness</p>
@@ -317,10 +317,10 @@
                             <div class="email-round-gp">
                                 <div class="email-round-pro" th:each="plant : ${all_plants}">
                                     <div class="email-signle-gp">
-                                        <input type="text" class="knob" value="0" data-rel="55" data-linecap="round" data-width="90" data-bgcolor="#E4E4E4" data-fgcolor="#00c292" data-thickness=".10" data-readonly="true" disabled>
+                                        <input type="text" class="knob" th:value="${plant.getHappiness()}" data-linecap="round" data-width="90" data-bgcolor="#E4E4E4" data-fgcolor="#00c292" data-thickness=".10" data-readonly="true" disabled>
                                     </div>
                                     <div class="email-ctn-nock">
-                                        <p>Nome da Planta</p>
+                                        <p th:text="${plant.name}">Nome da Planta</p>
                                     </div>
                                 </div>
                             </div>
@@ -594,7 +594,7 @@
 
 
     <!-- Start Footer area-->
-    <div class="footer-copyright-area">
+    <!-- <div class="footer-copyright-area">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -605,7 +605,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- End Footer area-->
     
     <!-- jquery
