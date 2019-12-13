@@ -58,7 +58,11 @@ public class PlantRepositoryImpl extends MongoTemplate implements PlantRepositor
 						p.addWind(timestamp, (double) hm.get("wind"));
 						
 						listener.process(p, (double) hm.get("temp"), (double) hm.get("soil"), (double) hm.get("wind"));
-						// Get warnings and add them to the database
+						// Get warnings and add them to the database, associated with the user
+						// for (String s : listener.getWarnings()) {
+						// 	continue;
+						// }
+						// 
 						break;
 					}
 				}
@@ -67,35 +71,6 @@ public class PlantRepositoryImpl extends MongoTemplate implements PlantRepositor
 				System.out.println(this.insert(user));
 				break;
 				
-				// Deciding if this a CREATE or UPDATE
-				// if( this.findOne(new Query(where("id").is(id)), Plant.class) == null)
-				// {
-				// 	// Constructing the object that will be saved
-				// 	plant = new Plant("Tulipa"); // Hardcoded "Tulipa", will later be sent by Sensor
-				// 	plant.addTemp(timestamp, (double) hm.get("temp"));
-				// 	plant.addSoil(timestamp, (double) hm.get("soil"));
-				// 	plant.addWind(timestamp, (int) hm.get("wind"));
-				// 	plant.setId(((Integer) hm.get("plant_id")).longValue());
-
-				// 	// Fetch username and plant_id to update data
-				// 	System.out.println("Adding " + this.insert(plant) + " to database");
-				// }
-				// else
-				// {
-		
-				// 	plant = this.findOne(new Query(where("id").is(id)), Plant.class);
-		
-				// 	plant.addTemp(timestamp, (double) hm.get("temp"));
-				// 	plant.addSoil(timestamp, (double) hm.get("soil"));
-				// 	plant.addWind(timestamp, (int) hm.get("wind"));
-		
-				// 	// TODO: Switch this to an update
-				// 	// this.updateFirst(new Query(where("id").is(id)), new Update().push("key", value), Plant.class);
-				// 	this.remove(new Query(where("id").is(id)), Plant.class);
-				// 	this.insert(plant);
-									
-				// }
-				// break;
 
 			case "USER_REG":
 				// Insert user in database with empty arrays

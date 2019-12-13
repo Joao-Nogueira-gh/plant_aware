@@ -61,6 +61,8 @@ public class PlantAwareController {
         model.addAttribute("avg_happ", u.averageHappiness());
         model.addAttribute("all_plants", u.getPlants());
 
+
+        // sort in db
         ArrayList<HashMap<String, Double>> data = new ArrayList<>();
         HashMap<String, Double> hm;
         for (String key : u.getPlants().get(0).getSoil().keySet() ){
@@ -81,15 +83,7 @@ public class PlantAwareController {
 
         System.out.println(data);
         model.addAttribute("chart_data", data.toArray());
-        // model.addAllAttributes(attributeValues)
 
-        // TEMOS DE DAR FETCH AO USER DESTA SESSAO
-        // DAR FETCH AS PLANTAS DO USER
-        // FOR EACH PLANTA
-        // PASS EVERY DATA WE HAVE ABOUT IT
-
-
-        // model.addAttribute("ideal_water", plantRep.findAll(Plant.class));
         return "index-4";
     }
 
@@ -129,7 +123,7 @@ public class PlantAwareController {
      * Mostly for raw data display
      * 
      */
-    @GetMapping("/all_plants")
+    @GetMapping("/api/plants")
     @ResponseBody
     List<User> all_plants() {
         return plantRep.findAll(User.class);
