@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" type="text/css" href="login.css">
+    <title>Login Plant Aware</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+  <div class="login-page">
+  <div class="form">
+    <h1>Welcome to Plant Aware!</h1>
+    <form action="#" th:action="@{/login}" th:object="${login}" method="post">
+    	<p> <input type="text" th:field="*{username}" placeholder="username"/></p>
+        <p><input type="password" th:field="*{password}" placeholder="password"/></p>
+        <p><input type="submit" value="Login In" /> <input type="reset" value="Reset" /></p>
+    </form>
+  </div>
+</div>
+</body>
+</html>

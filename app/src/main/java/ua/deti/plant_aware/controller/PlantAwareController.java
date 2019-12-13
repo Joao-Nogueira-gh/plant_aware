@@ -3,15 +3,15 @@ package ua.deti.plant_aware.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import ua.deti.plant_aware.login.Login;
+import ua.deti.plant_aware.register.Register;
 import java.util.*;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.ModelAttribute;
 import ua.deti.plant_aware.repository.*;
 import ua.deti.plant_aware.model.*;
 
@@ -57,26 +57,6 @@ public class PlantAwareController {
     }
 
 
-    /**
-     * 
-     * 
-     * Login GET
-     * Passes along error messages if needed
-     * 
-     */
-    @GetMapping("/login")
-    String login() {
-        return "login-register";
-    }
-
-
-
-    @GetMapping("/register")
-    String register(Model model) {
-        model.addAttribute("user", new User());
-
-        return "register";
-    }
 
     @PostMapping("/register")
     String registerUser(@ModelAttribute User user){
@@ -101,10 +81,49 @@ public class PlantAwareController {
     }
 
     @GetMapping("/plant_db")
-    public String all_plants(Model model) {
-        model.addAttribute("all_plants", plantRep.findAll(Plant.class));
-        return "plant_";
+public String all_plants(Model model) {
+    model.addAttribute("all_plants", plantRep.findAll(Plant.class));
+    return "plant_";
+}
+    //Login
+    @GetMapping("/login")
+    public String loginForm(Model model){
+      model.addAttribute("login", new Login());
+      return "login";
     }
+
+    @PostMapping("/login")
+  public String loginSubmit(@ModelAttribute Login login) {
+    return "index-4";
+  }
+
+  //Register
+  @GetMapping("/register")
+  public String registerForm(Model model){
+    model.addAttribute("registo", new Register());
+    return "register_v2";
+
+  }
+  @PostMapping("/registo")
+  @ResponseBody
+public String registerSubmit(@ModelAttribute Register registo) {
+  User u = new User(registo.getUsername(),registo.getPassword());
+  userRep.save(u);
+  System.out.println(u.getUsername());
+  System.out.println("User inserido");
+  return "User Registado";
+}
+  @GetMapping("/users")
+  @ResponseBody
+  List<User> all() {
+      return userRep.findAll();
+  }
+
+  @GetMapping("/chart")
+  public String getChart(Model model){
+    model.addAttribute("all_info", plantRep.findAll(Plant.class));
+    return "chart";
+  }
 
 
     // public User getUser(String user){
