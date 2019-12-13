@@ -1,6 +1,5 @@
 package ua.deti.plant_aware;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.data.mongodb.MongoDbFactory;
@@ -8,18 +7,13 @@ import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Update.update;
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Query.query;
 
 import ua.deti.plant_aware.model.*;
 import ua.deti.plant_aware.repository.*;
 import ua.deti.plant_aware.util.*;
 
-import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 
 public class PlantRepositoryImpl extends MongoTemplate implements PlantRepository {
@@ -47,6 +41,7 @@ public class PlantRepositoryImpl extends MongoTemplate implements PlantRepositor
 				// Fetch the owner name
 				owner = (String) hm.get("owner");
 				id = ((Integer) hm.get("plant_id")).longValue();
+
 				// Fetch owner's plants
 				user = this.findOne(new Query(where("username").is(owner)), User.class);
 
@@ -58,15 +53,18 @@ public class PlantRepositoryImpl extends MongoTemplate implements PlantRepositor
 						p.addWind(timestamp, (double) hm.get("wind"));
 						
 						listener.process(p, (double) hm.get("temp"), (double) hm.get("soil"), (double) hm.get("wind"));
+						
 						// Get warnings and add them to the database, associated with the user
-						// for (String s : listener.getWarnings()) {
-						// 	continue;
-						// }
-						// 
+						for (String s : listener.getWarnings()) {
+							user.addWarning(s);
+							continue;
+						}
+
 						break;
 					}
 				}
 
+				// Updating the db data -> SORTED INSERT ? ?
 				this.remove(new Query(where("username").is(owner)), User.class);
 				System.out.println(this.insert(user));
 				break;

@@ -4,7 +4,6 @@ import lombok.Getter;
 
 import java.util.HashMap;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
@@ -19,8 +18,6 @@ public class Plant {
     private HashMap<String, Double> temp;
     private HashMap<String, Double> soil; //humidade da terra
     private HashMap<String, Double> wind; //m/s
-
-    private double happiness;
     
     private String name;
 

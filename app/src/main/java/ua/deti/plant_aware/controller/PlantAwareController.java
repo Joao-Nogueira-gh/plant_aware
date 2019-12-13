@@ -19,15 +19,12 @@ import ua.deti.plant_aware.model.*;
 @RequestMapping("/")
 public class PlantAwareController {
 
-    @Autowired
-    private final UserRepository userRep;
+
     @Autowired
     private final PlantRepository plantRep;
 
-    PlantAwareController(UserRepository userRep, PlantRepository plantRep) {
-        this.userRep = userRep;
+    PlantAwareController(PlantRepository plantRep) {
         this.plantRep = plantRep;
-        // this.loadEmployeeOnDB();
     }
 
 
@@ -55,34 +52,37 @@ public class PlantAwareController {
                 break;
             }
         }
-        System.out.println(u);
-        System.out.println(u.getPlants());
-        model.addAttribute("welcome_str", "Welcome, Plant_Lover99!");
-        model.addAttribute("avg_happ", u.averageHappiness());
-        model.addAttribute("all_plants", u.getPlants());
+
+        if(u.getUsername() != null)
+        {
+            System.out.println(u);
+            System.out.println(u.getPlants());
+            model.addAttribute("welcome_str", "Welcome, Plant_Lover99!");
+            model.addAttribute("avg_happ", u.averageHappiness());
+            model.addAttribute("all_plants", u.getPlants());
 
 
-        // sort in db
-        ArrayList<HashMap<String, Double>> data = new ArrayList<>();
-        HashMap<String, Double> hm;
-        for (String key : u.getPlants().get(0).getSoil().keySet() ){
-            hm = new HashMap<>();
-            hm.put("x", Double.parseDouble(key));
-            hm.put("y", u.getPlants().get(0).getSoil().get(key));
-            data.add(hm);
+            ArrayList<HashMap<String, Double>> data = new ArrayList<>();
+            HashMap<String, Double> hm;
+            for (String key : u.getPlants().get(0).getSoil().keySet() ){
+                hm = new HashMap<>();
+                hm.put("x", Double.parseDouble(key));
+                hm.put("y", u.getPlants().get(0).getSoil().get(key));
+                data.add(hm);
+            }
+
+            data.sort(new MapComparator("x"));
+            int count = 0;
+            for (HashMap<String,Double> hashMap : data) {
+
+                hashMap.put("x", (double) count);
+                count++;
+                
+            }
+
+            System.out.println(data);
+            model.addAttribute("chart_data", data.toArray());
         }
-
-        data.sort(new MapComparator("x"));
-        int count = 0;
-        for (HashMap<String,Double> hashMap : data) {
-
-            hashMap.put("x", (double) count);
-            count++;
-            
-        }
-
-        System.out.println(data);
-        model.addAttribute("chart_data", data.toArray());
 
         return "index-4";
     }
@@ -116,24 +116,23 @@ public class PlantAwareController {
 
 
 
+
     /**
      * 
-     * 
-     * Database operations:
-     * Mostly for raw data display
+     * API Endpoints
      * 
      */
+
+    // Fetching all the data in the database
     @GetMapping("/api/plants")
     @ResponseBody
     List<User> all_plants() {
         return plantRep.findAll(User.class);
     }
 
-    // @GetMapping("/plant_db")
-    // public String all_plants(Model model) {
-    //     model.addAttribute("all_plants", plantRep.findAll(Plant.class));
-    //     return "plant_";
-    // }
+    // TODO: Fetch all users
+    // TODO: Fetch every plant
+    // TODO: Fetch all the entries (for collected data)
 
 }
 

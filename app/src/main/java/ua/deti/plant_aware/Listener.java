@@ -7,8 +7,6 @@ import ua.deti.plant_aware.model.Plant;
 public class Listener {
 
     private ArrayList<String> warnings;
-    private Plant p;
-    private double temp, soil, wind;
 
     public Listener()
     {
