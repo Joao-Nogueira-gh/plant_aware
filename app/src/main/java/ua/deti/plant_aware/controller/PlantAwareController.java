@@ -188,13 +188,13 @@ public class PlantAwareController {
 
     // Fetching all the data in the database
     @PostMapping("/registo")
-    @ResponseBody
+    //@ResponseBody
         public String registerSubmit(@ModelAttribute Register registo) {
         User u = new User(registo.getUsername(),registo.getPassword(),registo.getEmail());
         plantRep.save(u);
         System.out.println(u.getUsername());
         System.out.println("User inserido");
-        return "User Registado";
+        return "redirect:/login";
     }
 
     @GetMapping("/users")

@@ -1,10 +1,10 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
-.login-page {
+.register-page {
   width: 500px;
   padding: 8% 0 0;
   margin: auto;
 }
-.form {
+.form-group {
   position: relative;
   z-index: 1;
   background: #FFFFFF;

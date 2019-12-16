@@ -13,7 +13,8 @@
     <form action="#" th:action="@{/login}" th:object="${login}" method="post">
     	<p> <input type="text" th:field="*{username}" placeholder="username"/></p>
         <p><input type="password" th:field="*{password}" placeholder="password"/></p>
-        <p><input type="submit" value="Login In" /> <input type="reset" value="Reset" /></p>
+        <p><input type="submit" value="Login" /> <input type="reset" value="Reset" /></p>
+        <span>Don't have an account? <a href="/" th:href="@{/register}">Create one here</a></span>
     </form>
   </div>
 </div>
