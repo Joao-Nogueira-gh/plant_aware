@@ -97,7 +97,6 @@ public class PlantAwareController {
         for (Chart_Data chart_Data : data) {
             System.out.println(chart_Data);
         }
-        // System.out.println(data);
         model.addAttribute("chart_data", data.toArray());
     
 
