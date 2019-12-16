@@ -48,13 +48,13 @@ public class PlantAwareController {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * Main Page Dashboard
-     * 
+     *
      * Needs to pass along data collected in the last 24 for each user plant And
      * data from the last 7 days. All averaged together.
-     * 
+     *
      */
     @RequestMapping("/")
     String index(Model model) {
@@ -101,25 +101,25 @@ public class PlantAwareController {
         for (Plant p : u.getPlants()) {
 
             data.add(new Chart_Data(p));
-            
+
         }
 
         for (Chart_Data chart_Data : data) {
             System.out.println(chart_Data);
         }
         model.addAttribute("chart_data", data.toArray());
-    
+
         return "index-4";
 
     }
-    
+
     @PostMapping("/")
     String register_plant(@ModelAttribute PlantPost plant, Model model)
     {
         System.out.println(plant);
         Plant p = new Plant(plant.getPlant_name(), plant.getIdeal_temp(), plant.getIdeal_soil(), plant.getIdeal_wind());
         plantRep.add_new_plant(this.logged_user, p);
-        
+
         return "redirect:/";
     }
 
@@ -143,10 +143,10 @@ public class PlantAwareController {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * Login
-     * 
+     *
      */
     @GetMapping("/login")
     public String loginForm(Model model){
@@ -166,10 +166,10 @@ public class PlantAwareController {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * Register
-     * 
+     *
      */
     @GetMapping("/register")
     public String registerForm(Model model){
@@ -181,9 +181,9 @@ public class PlantAwareController {
 
 
     /**
-     * 
+     *
      * API Endpoints
-     * 
+     *
      */
 
     // Fetching all the data in the database
@@ -202,11 +202,15 @@ public class PlantAwareController {
     List<User> all() {
         return plantRep.findAll(User.class);
     }
+    @PostMapping("/logout")
+    public String logout(){
+      this.logged_user="";
+      return "redirect:/login";
+
+    }
 
     // TODO: Fetch all users
     // TODO: Fetch every plant
     // TODO: Fetch all the entries (for collected data)
 
 }
-
-

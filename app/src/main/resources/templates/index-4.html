@@ -59,7 +59,7 @@
 		============================================ -->
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
     <script th:inline="javascript">
-        
+
         /*<![CDATA[*/
             /*[# th:each="plant : ${chart_data}"]*/
 
@@ -69,20 +69,20 @@
         /*]]>*/
 
         window.onload = function () {
-          
-          
+
+
           var soil = plant.soil;
           var temp = plant.temp;
           var wind = plant.wind;
-          
+
           var chart = new CanvasJS.Chart("chartContainer",{
               title :{
                   text: plant.plant_name
               },
-              axisX: {						
+              axisX: {
                   title: "Timestamp"
               },
-              axisY: {						
+              axisY: {
                   title: "Soil"
               },
               data: [
@@ -115,30 +115,30 @@
                 }]
           });
 
-        
+
           chart.render();
           var xVal = dps.length + 1;
-          var yVal = 15;	
+          var yVal = 15;
           var updateInterval = 5001;
-    
-          var updateChart = function () {            
-              
+
+          var updateChart = function () {
+
               yVal = yVal +  Math.round(1 + Math.random() *(-1-1));
               dps.push({x: xVal,y: yVal});
-              
+
               xVal++;
               if (dps.length >  10 )
               {
-                  dps.shift();				
+                  dps.shift();
               }
-    
-              chart.render();		
-    
-        // update chart after specified time. 
-    
+
+              chart.render();
+
+        // update chart after specified time.
+
     };
-    
-    setInterval(function(){updateChart()}, updateInterval); 
+
+    setInterval(function(){updateChart()}, updateInterval);
     }
     </script>
     <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
@@ -157,14 +157,19 @@
                         <a href="#"><img src="img/logo/logo.png" alt="" /></a>
                     </div>
                 </div>
+
                 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                     <div class="header-top-menu">
+
                         <ul class="nav navbar-nav notika-top-nav">
+
                             <li class="nav-item nc-al"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><span><i class="notika-icon notika-alarm"></i></span></a>
+
                                 <div role="menu" class="dropdown-menu message-dd notification-dd animated zoomIn">
                                     <div class="hd-mg-tt">
                                         <h2>Notifications</h2>
                                     </div>
+
                                     <div class="hd-message-info">
                                         <a href="#">
                                             <div class="hd-message-sn" >
@@ -181,9 +186,16 @@
                                     <div class="hd-mg-va">
                                         <a href="#">View All</a>
                                     </div>
+
                                 </div>
+                                <form action="#" th:action="@{/logout}" method="post">
+                                  <div class='form'>
+                                  <button>Logout</button>
+                                </div>
+                                </form>
+
                             </li>
-                        
+
                         </ul>
                     </div>
                 </div>
@@ -422,12 +434,12 @@
 
     <!-- <div class="container">
             <button type="button" class="btn btn-success notika-btn-success" style="margin-top:30px" data-toggle="modal" data-target="#myModal">Add Plant</button>
-          
+
             <div class="modal fade" id="myModal" role="dialog">
             <form action="#" th:action="@{/procrl}" th:object="${PlantPost}" method="post">
 
               <div class="modal-dialog">
-              
+
                 <div class="form-example-wrap mg-t-30">
                         <div class="cmp-tb-hd cmp-int-hd">
                             <h2>Add a New Plant  🌱</h2>
@@ -475,18 +487,18 @@
                                 </div>
                             </div>
                         </div>
-                
+
               </div>
             </form>
 
             </div>
 
-            
+
     </div> -->
     <div class="form">
 
  <form action="#" th:action="@{/}" th:object="${plantpost}" method="post">
-        
+
                   <div class="cmp-tb-hd cmp-int-hd">
                       <h2>Add a New Plant </h2>
                   </div>
@@ -533,7 +545,7 @@
                           </div>
                       </div>
                   </div>
-          
+
 </form>
 </div>
 
