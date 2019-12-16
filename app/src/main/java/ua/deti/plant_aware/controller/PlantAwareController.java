@@ -14,6 +14,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import ua.deti.plant_aware.repository.*;
 import ua.deti.plant_aware.model.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.mongodb.core.query.Criteria;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.security.Timestamp;
+import java.util.*;
+import org.springframework.ui.Model;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequestMapping("/")
@@ -33,14 +56,14 @@ public class PlantAwareController {
 
 
     /**
-     * 
-     * 
+     *
+     *
      * Main Page
      * Dashboard
-     * 
+     *
      * Needs to pass along data collected in the last 24 for each user plant
      * And data from the last 7 days. All averaged together.
-     * 
+     *
      */
     @RequestMapping("/")
     String index(Model model) {
@@ -68,11 +91,11 @@ public class PlantAwareController {
 
 
     /**
-     * 
-     * 
+     *
+     *
      * Database operations:
      * Mostly for raw data display
-     * 
+     *
      */
     @GetMapping("/all_plants")
     @ResponseBody
@@ -94,10 +117,16 @@ public String all_plants(Model model) {
 
     @PostMapping("/login")
   public String loginSubmit(@ModelAttribute Login login) {
+    User u=userRep.findOne(new Query(where("username").is(login.getUsername()).and("password").is(login.getPassword())), User.class);
+    if (u==null){
+        System.out.println("User not in database");
+        return "login";
+      }
     return "index-4";
   }
 
   //Register
+
   @GetMapping("/register")
   public String registerForm(Model model){
     model.addAttribute("registo", new Register());
@@ -107,17 +136,19 @@ public String all_plants(Model model) {
   @PostMapping("/registo")
   @ResponseBody
 public String registerSubmit(@ModelAttribute Register registo) {
-  User u = new User(registo.getUsername(),registo.getPassword());
+  User u = new User(registo.getUsername(),registo.getPassword(),registo.getEmail());
   userRep.save(u);
   System.out.println(u.getUsername());
   System.out.println("User inserido");
   return "User Registado";
 }
+
   @GetMapping("/users")
   @ResponseBody
   List<User> all() {
-      return userRep.findAll();
+      return userRep.findAll(User.class);
   }
+
 
   @GetMapping("/chart")
   public String getChart(Model model){
