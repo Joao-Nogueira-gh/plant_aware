@@ -3,17 +3,20 @@ package ua.deti.plant_aware.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import ua.deti.plant_aware.login.Login;
+import ua.deti.plant_aware.register.Register;
 import java.util.*;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.ModelAttribute;
 import ua.deti.plant_aware.repository.*;
 import ua.deti.plant_aware.model.*;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+
+import org.springframework.data.mongodb.core.query.Query;
 
 @Controller
 @RequestMapping("/")
@@ -23,117 +26,132 @@ public class PlantAwareController {
     private final UserRepository userRep;
     @Autowired
     private final PlantRepository plantRep;
+    private String logged_user;
 
     PlantAwareController(UserRepository userRep, PlantRepository plantRep) {
         this.userRep = userRep;
         this.plantRep = plantRep;
-        // this.loadEmployeeOnDB();
+        this.logged_user = "";
     }
 
 
 
     /**
-     * 
-     * 
+     *
+     *
      * Main Page
      * Dashboard
-     * 
+     *
      * Needs to pass along data collected in the last 24 for each user plant
      * And data from the last 7 days. All averaged together.
-     * 
+     *
      */
     @RequestMapping("/")
     String index(Model model) {
-        List<User> l = plantRep.findAll(User.class);
-        User u = new User();
+        User u=userRep.findOne(new Query(where("username").is(this.logged_user)), User.class);
 
-        for (User utilizador : l) {
-            System.out.println(utilizador);
-            if(utilizador.getUsername().equals("Plant_Lover99"))
-            {
-                u = utilizador;
-                break;
-            }
-        }
         System.out.println(u);
         System.out.println(u.getPlants());
-        model.addAttribute("welcome_str", "Welcome, Plant_Lover99!");
         model.addAttribute("avg_happ", u.averageHappiness());
         model.addAttribute("all_plants", u.getPlants());
 
 
-        // sort in db
-        ArrayList<HashMap<String, Double>> data = new ArrayList<>();
-        HashMap<String, Double> hm;
-        for (String key : u.getPlants().get(0).getSoil().keySet() ){
-            hm = new HashMap<>();
-            hm.put("x", Double.parseDouble(key));
-            hm.put("y", u.getPlants().get(0).getSoil().get(key));
-            data.add(hm);
+        if(u.getPlants().size() > 0){
+            ArrayList<HashMap<String, Double>> data = new ArrayList<>();
+            HashMap<String, Double> hm;
+            for (String key : u.getPlants().get(0).getSoil().keySet() ){
+                hm = new HashMap<>();
+                hm.put("x", Double.parseDouble(key));
+                hm.put("y", u.getPlants().get(0).getSoil().get(key));
+                data.add(hm);
+            }
+
+            data.sort(new MapComparator("x"));
+            int count = 0;
+            for (HashMap<String,Double> hashMap : data) {
+
+                hashMap.put("x", (double) count);
+                count++;
+                
+            }
+
+            System.out.println(data);
+            model.addAttribute("chart_data", data.toArray());
         }
-
-        data.sort(new MapComparator("x"));
-        int count = 0;
-        for (HashMap<String,Double> hashMap : data) {
-
-            hashMap.put("x", (double) count);
-            count++;
-            
-        }
-
-        System.out.println(data);
-        model.addAttribute("chart_data", data.toArray());
-
+        
         return "index-4";
     }
 
 
-    /**
-     * 
-     * 
-     * Login GET
-     * Passes along error messages if needed
-     * 
-     */
-    @GetMapping("/login")
-    String login() {
-        return "login-register";
-    }
-
-
-
-    @GetMapping("/register")
-    String register(Model model) {
-        model.addAttribute("user", new User());
-
-        return "register";
-    }
-
-    @PostMapping("/register")
-    String registerUser(@ModelAttribute User user){
-        return "login-register";
-    }
-
-
 
     /**
-     * 
-     * 
-     * Database operations:
-     * Mostly for raw data display
-     * 
+     *
+     *
+     * API
+     *
      */
     @GetMapping("/api/plants")
     @ResponseBody
-    List<User> all_plants() {
-        return plantRep.findAll(User.class);
+    List<Plant> all_plants() {
+        return plantRep.findAll(Plant.class);
     }
 
-    // @GetMapping("/plant_db")
-    // public String all_plants(Model model) {
-    //     model.addAttribute("all_plants", plantRep.findAll(Plant.class));
-    //     return "plant_";
-    // }
+    @GetMapping("/plant_db")
+    public String all_plants(Model model) {
+        model.addAttribute("all_plants", plantRep.findAll(Plant.class));
+        return "plant_";
+    }
+
+    /**
+     * 
+     * 
+     * Login
+     * 
+     */
+    @GetMapping("/login")
+    public String loginForm(Model model){
+        model.addAttribute("login", new Login());
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String loginSubmit(@ModelAttribute Login login) {
+        User u=userRep.findOne(new Query(where("username").is(login.getUsername()).and("password").is(login.getPassword())), User.class);
+        if (u==null){
+            System.out.println("User not in database");
+            return "login";
+        }
+        this.logged_user = u.getUsername();
+        return "index-4";
+    }
+
+    /**
+     * 
+     * 
+     * Register
+     * 
+     */
+    @GetMapping("/register")
+    public String registerForm(Model model){
+        model.addAttribute("registo", new Register());
+        return "register_v2";
+    }
+
+    @PostMapping("/registo")
+    @ResponseBody
+        public String registerSubmit(@ModelAttribute Register registo) {
+        User u = new User(registo.getUsername(),registo.getPassword(),registo.getEmail());
+        userRep.save(u);
+        System.out.println(u.getUsername());
+        System.out.println("User inserido");
+        return "User Registado";
+    }
+
+    @GetMapping("/users")
+    @ResponseBody
+    List<User> all() {
+        return userRep.findAll(User.class);
+    }
 
 }
 

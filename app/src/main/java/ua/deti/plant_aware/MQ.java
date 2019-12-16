@@ -10,10 +10,19 @@ import org.springframework.stereotype.Component;
 import ua.deti.plant_aware.repository.PlantRepository;
 
 /**
- * 
+ *
  * Message Queue
- * 
- * 
+ * Receives messages of type
+ * {
+ *  "id": 1,
+ *  "soil": ...,
+ *  "temp": ...,
+ *  "wind": ...,
+ *  "timestamp": ...
+ * }
+ *
+ *
+ *
  */
 
 @Component
@@ -25,6 +34,7 @@ public class MQ {
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
+        //factory.setPort(5672);
 
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
