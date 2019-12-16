@@ -432,11 +432,12 @@
     <!-- ## -->
 
 
-    <!-- <div class="container">
+    <div class="container">
+    <div class="form">
             <button type="button" class="btn btn-success notika-btn-success" style="margin-top:30px" data-toggle="modal" data-target="#myModal">Add Plant</button>
-
+            <form action="#" th:action="@{/}" th:object="${plantpost}" method="post">
             <div class="modal fade" id="myModal" role="dialog">
-            <form action="#" th:action="@{/procrl}" th:object="${PlantPost}" method="post">
+
 
               <div class="modal-dialog">
 
@@ -487,14 +488,15 @@
                                 </div>
                             </div>
                         </div>
-
+                        </form>
               </div>
-            </form>
+
 
             </div>
 
 
-    </div> -->
+    </div>
+    <!-- <div class="container">
     <div class="form">
 
  <form action="#" th:action="@{/}" th:object="${plantpost}" method="post">
@@ -549,7 +551,7 @@
 </form>
 </div>
 
-
+</div> -->
 
     <!-- Start Footer area-->
     <!-- <div class="footer-copyright-area">
