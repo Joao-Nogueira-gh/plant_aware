@@ -109,7 +109,18 @@ public class PlantRepositoryImpl extends MongoTemplate implements PlantRepositor
 
 		
 
-    }
+	}
+	
+	public void add_new_plant(String username, Plant p)
+	{
+		User user = this.findOne(new Query(where("username").is(username)), User.class);
+		user.addPlant(p);
+
+		this.remove(new Query(where("username").is(username)), User.class);
+		this.insert(user);
+		System.out.println("E VAIS MAIS VEZES!!!");
+
+	}
 
     
 

@@ -45,6 +45,14 @@ public class Plant {
         this.ideal_soil = ideal_soil;
         this.ideal_wind = ideal_wind;
     }
+
+    public Plant(String name, double ideal_temp, double ideal_soil, double ideal_wind)
+    {
+        this.name = name;
+        this.ideal_temp = ideal_temp;
+        this.ideal_soil = ideal_soil;
+        this.ideal_wind = ideal_wind;
+    }
  
 
     public BigInteger getId() {

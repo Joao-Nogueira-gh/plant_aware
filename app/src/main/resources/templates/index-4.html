@@ -420,25 +420,24 @@
     <!-- ## -->
 
 
-    <div class="container">
-            <!-- Trigger the modal with a button -->
+    <!-- <div class="container">
             <button type="button" class="btn btn-success notika-btn-success" style="margin-top:30px" data-toggle="modal" data-target="#myModal">Add Plant</button>
           
-            <!-- Modal -->
             <div class="modal fade" id="myModal" role="dialog">
+            <form action="#" th:action="@{/procrl}" th:object="${PlantPost}" method="post">
+
               <div class="modal-dialog">
               
-                <!-- Modal content-->
                 <div class="form-example-wrap mg-t-30">
                         <div class="cmp-tb-hd cmp-int-hd">
-                            <h2>Add a New Plant 🌱</h2>
+                            <h2>Add a New Plant  🌱</h2>
                         </div>
                         <div class="row">
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                 <div class="form-example-int form-example-st">
                                     <div class="form-group">
                                         <div class="nk-int-st">
-                                            <input type="text" class="form-control input-sm" placeholder="Plant Name">
+                                            <input type="text" th:field="*{plant_name}" class="form-control input-sm" placeholder="Plant Name">
                                         </div>
                                     </div>
                                 </div>
@@ -447,7 +446,7 @@
                                 <div class="form-example-int form-example-st">
                                     <div class="form-group">
                                         <div class="nk-int-st">
-                                            <input type="number" class="form-control input-sm" placeholder="Ideal Temperature">
+                                            <input type="number" th:field="*{ideal_temp}" class="form-control input-sm" placeholder="Ideal Temperature">
                                         </div>
                                     </div>
                                 </div>
@@ -456,7 +455,7 @@
                                     <div class="form-example-int form-example-st">
                                         <div class="form-group">
                                             <div class="nk-int-st">
-                                                <input type="number" class="form-control input-sm" placeholder="Ideal Wind">
+                                                <input type="number" th:field="*{ideal_wind}" class="form-control input-sm" placeholder="Ideal Wind">
                                             </div>
                                         </div>
                                     </div>
@@ -465,7 +464,7 @@
                                     <div class="form-example-int form-example-st">
                                         <div class="form-group">
                                             <div class="nk-int-st">
-                                                <input type="number" class="form-control input-sm" placeholder="Ideal Humidity">
+                                                <input type="number" th:field="*{ideal_soil}" class="form-control input-sm" placeholder="Ideal Humidity">
                                             </div>
                                         </div>
                                     </div>
@@ -478,10 +477,66 @@
                         </div>
                 
               </div>
+            </form>
+
             </div>
+
             
-    </div>
+    </div> -->
+    <div class="form">
+
+ <form action="#" th:action="@{/}" th:object="${plantpost}" method="post">
+        
+                  <div class="cmp-tb-hd cmp-int-hd">
+                      <h2>Add a New Plant </h2>
+                  </div>
+                  <div class="row">
+                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                          <div class="form-example-int form-example-st">
+                              <div class="form-group">
+                                  <div class="nk-int-st">
+                                      <input type="text" th:field="*{plant_name}" class="form-control input-sm" placeholder="Plant Name">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                          <div class="form-example-int form-example-st">
+                              <div class="form-group">
+                                  <div class="nk-int-st">
+                                      <input type="number" th:field="*{ideal_temp}" class="form-control input-sm" placeholder="Ideal Temperature">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                              <div class="form-example-int form-example-st">
+                                  <div class="form-group">
+                                      <div class="nk-int-st">
+                                          <input type="number" th:field="*{ideal_wind}" class="form-control input-sm" placeholder="Ideal Wind">
+                                      </div>
+                                  </div>
+                              </div>
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                              <div class="form-example-int form-example-st">
+                                  <div class="form-group">
+                                      <div class="nk-int-st">
+                                          <input type="number" th:field="*{ideal_soil}" class="form-control input-sm" placeholder="Ideal Humidity">
+                                      </div>
+                                  </div>
+                              </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                          <div class="form-example-int">
+                              <button class="btn btn-success notika-btn-success">Submit</button>
+                          </div>
+                      </div>
+                  </div>
           
+</form>
+</div>
+
 
 
     <!-- Start Footer area-->

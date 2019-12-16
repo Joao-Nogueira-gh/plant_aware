@@ -2,6 +2,7 @@ package ua.deti.plant_aware.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ua.deti.plant_aware.login.Login;
 import ua.deti.plant_aware.register.Register;
@@ -61,6 +62,7 @@ public class PlantAwareController {
         // String now = Long.toString(System.currentTimeMillis() / 1000l);
         // String dayAgo = Long.toString((System.currentTimeMillis() - 3600*24*1000l) / 1000l);
         // String weekAgo =  Long.toString((System.currentTimeMillis() - 7*3600*24*1000l) / 1000l);
+        model.addAttribute("plantpost", new PlantPost());
 
         User u=plantRep.findOne(new Query(where("username").is(this.logged_user)), User.class);
 
@@ -115,6 +117,18 @@ public class PlantAwareController {
         return "index-4";
 
     }
+    
+    @PostMapping("/")
+    String register_plant(@ModelAttribute PlantPost plant, Model model)
+    {
+        System.out.println(plant);
+        Plant p = new Plant(plant.getPlant_name(), plant.getIdeal_temp(), plant.getIdeal_soil(), plant.getIdeal_wind());
+        plantRep.add_new_plant(this.logged_user, p);
+        
+        return "redirect:/";
+    }
+
+
     /**
      *
      *
@@ -168,7 +182,6 @@ public class PlantAwareController {
         return "register_v2";
     }
 
-    @PostMapping("/registo")
 
 
 
@@ -179,7 +192,7 @@ public class PlantAwareController {
      */
 
     // Fetching all the data in the database
-    @GetMapping("/api/plants")
+    @PostMapping("/registo")
     @ResponseBody
         public String registerSubmit(@ModelAttribute Register registo) {
         User u = new User(registo.getUsername(),registo.getPassword(),registo.getEmail());
