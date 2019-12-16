@@ -59,6 +59,10 @@ public class PlantAwareController {
     @RequestMapping("/")
     String index(Model model) {
 
+        if(this.logged_user == ""){
+            return "redirect:/login";
+        }
+
         // String now = Long.toString(System.currentTimeMillis() / 1000l);
         // String dayAgo = Long.toString((System.currentTimeMillis() - 3600*24*1000l) / 1000l);
         // String weekAgo =  Long.toString((System.currentTimeMillis() - 7*3600*24*1000l) / 1000l);
@@ -99,15 +103,6 @@ public class PlantAwareController {
             data.add(new Chart_Data(p));
             
         }
-            
-
-        // int count = 0;
-        // for (HashMap<String,Double> hashMap : data) {
-
-        //     hashMap.put("x", (double) count);
-        //     count++;
-            
-        // }
 
         for (Chart_Data chart_Data : data) {
             System.out.println(chart_Data);
