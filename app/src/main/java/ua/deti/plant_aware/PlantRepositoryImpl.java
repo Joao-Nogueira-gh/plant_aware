@@ -1,25 +1,25 @@
 package ua.deti.plant_aware;
 
-import java.util.ArrayList;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.data.mongodb.MongoDbFactory;
 
+import java.math.BigInteger;
+
 import org.springframework.data.mongodb.core.MongoTemplate;
-
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Update.update;
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Query.query;
 
 import ua.deti.plant_aware.model.*;
 import ua.deti.plant_aware.repository.*;
 import ua.deti.plant_aware.util.*;
 
-import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 
 public class PlantRepositoryImpl extends MongoTemplate implements PlantRepository {
@@ -36,7 +36,7 @@ public class PlantRepositoryImpl extends MongoTemplate implements PlantRepositor
 		String type = (String) hm.get("type");
 		String timestamp = (String) hm.get("timestamp");
 		Listener listener = new Listener();
-		long id;
+		BigInteger id;
 		String owner;
 		User user;
 		// Plant plant;
@@ -44,30 +44,34 @@ public class PlantRepositoryImpl extends MongoTemplate implements PlantRepositor
 		switch (type) {
 			case "PLANT_UPDATE":
 		
-				// Fetch the owner name
-				owner = (String) hm.get("owner");
-				id = ((Integer) hm.get("plant_id")).longValue();
-				// Fetch owner's plants
-				user = this.findOne(new Query(where("username").is(owner)), User.class);
+				// Fetch plant ID
+				id = (BigInteger) hm.get("plant_id");
 
+				// Fetch plant owner without his name -> query with plant ID
+				user = this.findOne(new Query(where("plants").elemMatch(where("id").is(id))), User.class);
+				System.out.println(user);
 				// Iterate over the user's plants, get the one with the right ID, update it, rewrite it
 				for (Plant p : user.getPlants()) {
 					if(p.getId() == id){
+
 						p.addTemp(timestamp, (double) hm.get("temp"));
 						p.addSoil(timestamp, (double) hm.get("soil"));
 						p.addWind(timestamp, (double) hm.get("wind"));
 						
-						listener.process(p, (double) hm.get("temp"), (double) hm.get("soil"), (double) hm.get("wind"));
+						listener.process(p, (double) hm.get("temp"), (double) hm.get("soil"), (double) hm.get("wind"), timestamp);
+						
 						// Get warnings and add them to the database, associated with the user
-						// for (String s : listener.getWarnings()) {
-						// 	continue;
-						// }
-						// 
+						for (Warning w : listener.getWarnings()) {
+							user.addWarning(w);
+							continue;
+						}
+
 						break;
 					}
 				}
 
-				this.remove(new Query(where("username").is(owner)), User.class);
+				// Updating the db data
+				this.remove(new Query(where("username").is(user.getUsername())), User.class);
 				System.out.println(this.insert(user));
 				break;
 				
@@ -89,7 +93,7 @@ public class PlantRepositoryImpl extends MongoTemplate implements PlantRepositor
 				user = this.findOne(new Query(where("username").is(owner)), User.class);
 				user.addPlant(new Plant(
 											(String) hm.get("name"),
-											(long) 1,
+											new BigInteger("1"),
 											(double) hm.get("ideal_temp"),
 											(double) hm.get("ideal_soil"),
 											(double) hm.get("ideal_wind")											

@@ -5,13 +5,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ua.deti.plant_aware.login.Login;
 import ua.deti.plant_aware.register.Register;
+
+import java.security.Timestamp;
 import java.util.*;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.mongodb.core.query.Criteria;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+
+
 import ua.deti.plant_aware.repository.*;
 import ua.deti.plant_aware.model.*;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
@@ -23,67 +38,83 @@ import org.springframework.data.mongodb.core.query.Query;
 public class PlantAwareController {
 
     @Autowired
-    private final UserRepository userRep;
-    @Autowired
     private final PlantRepository plantRep;
     private String logged_user;
 
-    PlantAwareController(UserRepository userRep, PlantRepository plantRep) {
-        this.userRep = userRep;
+    PlantAwareController(PlantRepository plantRep) {
         this.plantRep = plantRep;
         this.logged_user = "";
     }
 
-
-
     /**
-     *
-     *
-     * Main Page
-     * Dashboard
-     *
-     * Needs to pass along data collected in the last 24 for each user plant
-     * And data from the last 7 days. All averaged together.
-     *
+     * 
+     * 
+     * Main Page Dashboard
+     * 
+     * Needs to pass along data collected in the last 24 for each user plant And
+     * data from the last 7 days. All averaged together.
+     * 
      */
     @RequestMapping("/")
     String index(Model model) {
-        User u=userRep.findOne(new Query(where("username").is(this.logged_user)), User.class);
+
+        // String now = Long.toString(System.currentTimeMillis() / 1000l);
+        // String dayAgo = Long.toString((System.currentTimeMillis() - 3600*24*1000l) / 1000l);
+        // String weekAgo =  Long.toString((System.currentTimeMillis() - 7*3600*24*1000l) / 1000l);
+
+        User u=plantRep.findOne(new Query(where("username").is(this.logged_user)), User.class);
 
         System.out.println(u);
         System.out.println(u.getPlants());
+        Query q = new Query();
+        // q.fields().elemMatch("plants", Criteria.where("temp.0").lt(now).gt(dayAgo));
+        q.fields().include("plants");
+        List<Plant> plantas = plantRep.find(q, Plant.class);
+        System.out.println(plantas);
+
+        if(u == null){
+            return "index-4";
+        }
+
+        System.out.println(u);
+        System.out.println(u.getPlants());
+
+
+
+        model.addAttribute("welcome_str", "Welcome, Plant_Lover99!");
         model.addAttribute("avg_happ", u.averageHappiness());
         model.addAttribute("all_plants", u.getPlants());
+        model.addAttribute("username", u.getUsername());
 
 
-        if(u.getPlants().size() > 0){
-            ArrayList<HashMap<String, Double>> data = new ArrayList<>();
-            HashMap<String, Double> hm;
-            for (String key : u.getPlants().get(0).getSoil().keySet() ){
-                hm = new HashMap<>();
-                hm.put("x", Double.parseDouble(key));
-                hm.put("y", u.getPlants().get(0).getSoil().get(key));
-                data.add(hm);
-            }
+        // Warnings should have a timestamp and should be sorted by it
+        model.addAttribute("warnings", u.getWarnings());
 
-            data.sort(new MapComparator("x"));
-            int count = 0;
-            for (HashMap<String,Double> hashMap : data) {
 
-                hashMap.put("x", (double) count);
-                count++;
-                
-            }
+        ArrayList<Chart_Data> data = new ArrayList<>();
+        for (Plant p : u.getPlants()) {
 
-            System.out.println(data);
-            model.addAttribute("chart_data", data.toArray());
+            data.add(new Chart_Data(p));
+            
         }
-        
+            
+
+        // int count = 0;
+        // for (HashMap<String,Double> hashMap : data) {
+
+        //     hashMap.put("x", (double) count);
+        //     count++;
+            
+        // }
+
+        for (Chart_Data chart_Data : data) {
+            System.out.println(chart_Data);
+        }
+        model.addAttribute("chart_data", data.toArray());
+    
         return "index-4";
+
     }
-
-
-
     /**
      *
      *
@@ -116,13 +147,13 @@ public class PlantAwareController {
 
     @PostMapping("/login")
     public String loginSubmit(@ModelAttribute Login login) {
-        User u=userRep.findOne(new Query(where("username").is(login.getUsername()).and("password").is(login.getPassword())), User.class);
+        User u=plantRep.findOne(new Query(where("username").is(login.getUsername()).and("password").is(login.getPassword())), User.class);
         if (u==null){
             System.out.println("User not in database");
             return "login";
         }
         this.logged_user = u.getUsername();
-        return "index-4";
+        return "redirect:/";
     }
 
     /**
@@ -138,10 +169,21 @@ public class PlantAwareController {
     }
 
     @PostMapping("/registo")
+
+
+
+    /**
+     * 
+     * API Endpoints
+     * 
+     */
+
+    // Fetching all the data in the database
+    @GetMapping("/api/plants")
     @ResponseBody
         public String registerSubmit(@ModelAttribute Register registo) {
         User u = new User(registo.getUsername(),registo.getPassword(),registo.getEmail());
-        userRep.save(u);
+        plantRep.save(u);
         System.out.println(u.getUsername());
         System.out.println("User inserido");
         return "User Registado";
@@ -150,27 +192,13 @@ public class PlantAwareController {
     @GetMapping("/users")
     @ResponseBody
     List<User> all() {
-        return userRep.findAll(User.class);
+        return plantRep.findAll(User.class);
     }
+
+    // TODO: Fetch all users
+    // TODO: Fetch every plant
+    // TODO: Fetch all the entries (for collected data)
 
 }
 
-class MapComparator implements Comparator<Map<String, Double>>
-{
-    private final String key;
 
-    public MapComparator(String key)
-    {
-        this.key = "x";
-    }
-
-    @Override
-    public int compare(Map<String, Double> first,
-                       Map<String, Double> second)
-    {
-        // TODO: Null checking, both for maps and values
-        Double firstValue = first.get(key);
-        Double secondValue = second.get(key);
-        return firstValue.compareTo(secondValue);
-    }
-}
