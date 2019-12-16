@@ -14,7 +14,7 @@ public class User {
     private String password;
     private String email;
     private ArrayList<Plant> plants;
-    private ArrayList<String> warnings;
+    private ArrayList<Warning> warnings;
 
     public User() {
   
@@ -25,6 +25,7 @@ public class User {
          this.password=password;
          this.email=email;
          this.plants = new ArrayList<Plant>();
+         this.warnings = new ArrayList<Warning>();
     }
 
     public String getUsername() {
@@ -58,10 +59,10 @@ public class User {
         this.plants.add(p);
     }
 
-    public void addWarning(String w) {
+    public void addWarning(Warning w) {
         this.warnings.add(w);
     }
-    public ArrayList<String> getWarnings() {
+    public ArrayList<Warning> getWarnings() {
         return this.warnings;
     }
 

@@ -8,6 +8,7 @@ import json
 import pika
 import calendar
 from random import uniform,randrange
+from datetime import datetime
 
 connection=pika.BlockingConnection(pika.ConnectionParameters('localhost', 5672))
 channel=connection.channel()

@@ -2,7 +2,10 @@ package ua.deti.plant_aware.model;
 
 import lombok.Getter;
 
+import java.math.BigInteger;
 import java.util.HashMap;
+
+import javax.persistence.Id;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,14 +13,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "main")
 public class Plant {
 
-    private long id;
+    @Id
+    private BigInteger id;
     private double ideal_temp;
-    private double ideal_soil; //humidade da terra
+    private double ideal_soil;
     private double ideal_wind;
 
     private HashMap<String, Double> temp;
-    private HashMap<String, Double> soil; //humidade da terra
-    private HashMap<String, Double> wind; //m/s
+    private HashMap<String, Double> soil;
+    private HashMap<String, Double> wind;
     
     private String name;
 
@@ -34,7 +38,7 @@ public class Plant {
          this.wind = new HashMap<>();
     }
 
-    public Plant(String name, long id, double ideal_temp, double ideal_soil, double ideal_wind){
+    public Plant(String name, BigInteger id, double ideal_temp, double ideal_soil, double ideal_wind){
         this.name = name;
         this.id = id;
         this.ideal_temp = ideal_temp;
@@ -43,10 +47,10 @@ public class Plant {
     }
  
 
-    public long getId() {
+    public BigInteger getId() {
         return id;
     }
-    public void setId(long id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
  
