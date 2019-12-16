@@ -58,13 +58,25 @@
 		============================================ -->
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
     <script th:inline="javascript">
-        var message = /*[[${chart_data}]]*/ 'default';
+        
+        /*<![CDATA[*/
+            /*[# th:each="plant : ${chart_data}"]*/
+
+            var plant = /*[[${plant}]]*/ 'default';
+
+            /*[/]*/
+        /*]]>*/
+
         window.onload = function () {
-          var dps = message;
+          
+          
+          var soil = plant.soil;
+          var temp = plant.temp;
+          var wind = plant.wind;
           
           var chart = new CanvasJS.Chart("chartContainer",{
               title :{
-                  text: "Live Data"
+                  text: plant.plant_name
               },
               axisX: {						
                   title: "Timestamp"
@@ -72,13 +84,37 @@
               axisY: {						
                   title: "Soil"
               },
-              data: [{
-                  type: "line",
-                  xValueType: "dateTime",
-                  dataPoints : dps
-              }]
+              data: [
+                {
+                    type: "line",
+                    xValueType: "dateTime",
+                    axisYType: "secondary",
+                    name: "Soil",
+                    showInLegend: true,
+                    markerSize: 0,
+                    dataPoints: plant.soil
+                },
+                {
+                    type: "line",
+                    xValueType: "dateTime",
+                    axisYType: "secondary",
+                    name: "Temperature",
+                    showInLegend: true,
+                    markerSize: 0,
+                    dataPoints: plant.temp
+                },
+                {
+                    type: "line",
+                    xValueType: "dateTime",
+                    axisYType: "secondary",
+                    name: "Wind",
+                    showInLegend: true,
+                    markerSize: 0,
+                    dataPoints: plant.wind
+                }]
           });
-    
+
+        
           chart.render();
           var xVal = dps.length + 1;
           var yVal = 15;	

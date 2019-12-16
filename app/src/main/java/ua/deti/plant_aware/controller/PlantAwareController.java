@@ -51,13 +51,13 @@ public class PlantAwareController {
     @RequestMapping("/")
     String index(Model model) {
 
-        String now = Long.toString(System.currentTimeMillis() / 1000l);
-        String dayAgo = Long.toString((System.currentTimeMillis() - 3600*24*1000l) / 1000l);
-        String weekAgo =  Long.toString((System.currentTimeMillis() - 7*3600*24*1000l) / 1000l);
+        // String now = Long.toString(System.currentTimeMillis() / 1000l);
+        // String dayAgo = Long.toString((System.currentTimeMillis() - 3600*24*1000l) / 1000l);
+        // String weekAgo =  Long.toString((System.currentTimeMillis() - 7*3600*24*1000l) / 1000l);
 
         User u = plantRep.findOne(new Query(where("username").is("Plant_Lover99")), User.class);
         Query q = new Query();
-        q.fields().elemMatch("plants.temp", Criteria.where("timestamp").lt(now).gt(dayAgo));
+        // q.fields().elemMatch("plants", Criteria.where("temp.0").lt(now).gt(dayAgo));
         q.fields().include("plants");
         List<Plant> plantas = plantRep.find(q, Plant.class);
         System.out.println(plantas);
@@ -66,17 +66,11 @@ public class PlantAwareController {
             return "index-4";
         }
 
-        Query query = new Query();
-        query.addCriteria(Criteria.where("name").is("Eric"));
-        List<User> users = plantRep.find(query, User.class);
-
-        query.with(Sort.by(Direction.ASC, "username"));
-
-        Sort sort = Sort.by(Direction.ASC, "username");
-        // plantRep.executeQuery(query, "main", null);
-
         System.out.println(u);
         System.out.println(u.getPlants());
+
+
+
         model.addAttribute("welcome_str", "Welcome, Plant_Lover99!");
         model.addAttribute("avg_happ", u.averageHappiness());
         model.addAttribute("all_plants", u.getPlants());
@@ -85,16 +79,13 @@ public class PlantAwareController {
         model.addAttribute("warnings", u.getWarnings());
 
 
-        ArrayList<HashMap<String, Double>> data = new ArrayList<>();
-        HashMap<String, Double> hm;
-        for (String key : u.getPlants().get(0).getSoil().keySet() ){
-            hm = new HashMap<>();
-            hm.put("x", Double.parseDouble(key)*1000);
-            hm.put("y", u.getPlants().get(0).getSoil().get(key));
-            data.add(hm);
+        ArrayList<Chart_Data> data = new ArrayList<>();
+        for (Plant p : u.getPlants()) {
+
+            data.add(new Chart_Data(p));
+            
         }
 
-        data.sort(new MapComparator("x"));
         // int count = 0;
         // for (HashMap<String,Double> hashMap : data) {
 
@@ -103,7 +94,10 @@ public class PlantAwareController {
             
         // }
 
-        System.out.println(data);
+        for (Chart_Data chart_Data : data) {
+            System.out.println(chart_Data);
+        }
+        // System.out.println(data);
         model.addAttribute("chart_data", data.toArray());
     
 
@@ -165,22 +159,4 @@ public class PlantAwareController {
 
 }
 
-class MapComparator implements Comparator<Map<String, Double>>
-{
-    private final String key;
 
-    public MapComparator(String key)
-    {
-        this.key = "x";
-    }
-
-    @Override
-    public int compare(Map<String, Double> first,
-                       Map<String, Double> second)
-    {
-        // TODO: Null checking, both for maps and values
-        Double firstValue = first.get(key);
-        Double secondValue = second.get(key);
-        return firstValue.compareTo(secondValue);
-    }
-}
