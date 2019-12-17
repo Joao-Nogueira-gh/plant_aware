@@ -16,7 +16,7 @@ def main():
 
 def send():
     #create json
-    d={"type":"ADD_PLANT", "owner": "Plant_Lover99", "name":"Rosa", "ideal_temp":20.50, "ideal_soil":15.12, "ideal_wind":1.5}
+    d={"type":"ADD_PLANT", "owner": "Plant_Lover99", "name":"Rosa", "ideal_temp":20.50, "ideal_soil":15.12, "ideal_wind":1.0}
     y=json.dumps(d)
     channel.basic_publish(exchange='', routing_key='plants_info',body=y)
     print ("Sending "+y)

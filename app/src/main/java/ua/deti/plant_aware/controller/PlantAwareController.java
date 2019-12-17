@@ -137,8 +137,9 @@ public class PlantAwareController {
      */
     @GetMapping("/api/plants")
     @ResponseBody
-    List<Plant> all_plants() {
-        return plantRep.findAll(Plant.class);
+    User all_plants() {
+        return plantRep.findOne(new Query(where("username").is(this.logged_user)), User.class);
+
     }
 
     @GetMapping("/plant_db")
