@@ -22,8 +22,7 @@ RUN chmod +x wait-for-it.sh
 #RUN apk update && apk add bash
 
 # Run
-#RUN /wait-for-it.sh db:27017 -- java -jar /plant_aware.jar
-RUN sleep 10
+ENTRYPOINT /wait-for-it.sh db:27017 -- java -jar /plant_aware.jar
 
 # Run the JAR file
-ENTRYPOINT ["java", "-jar", "/plant_aware.jar"]
+#ENTRYPOINT ["java", "-jar", "/plant_aware.jar"]

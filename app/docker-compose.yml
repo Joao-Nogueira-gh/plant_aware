@@ -12,6 +12,7 @@ services:
      - 27016:27017
 
   spring:
+    command: bash -c "sleep 50; echo "ola";"
     build: .
     depends_on:
       - db
@@ -19,5 +20,5 @@ services:
 
     ports:
       - "8080:8080"
-    command: ["sleep", "5"]
+
 
