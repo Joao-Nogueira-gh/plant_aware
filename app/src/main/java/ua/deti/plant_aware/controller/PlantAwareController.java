@@ -94,6 +94,11 @@ public class PlantAwareController {
 
 
         // Warnings should have a timestamp and should be sorted by it
+        // List<Warning> wars = u.getWarnings();
+        
+        // List<Warning> w = plantRep.find(
+        //         new Query(where("username").is(this.logged_user)).limit(5), Warning.class);
+
         model.addAttribute("warnings", u.getWarnings());
 
 
@@ -117,7 +122,7 @@ public class PlantAwareController {
     String register_plant(@ModelAttribute PlantPost plant, Model model)
     {
         System.out.println(plant);
-        Plant p = new Plant(plant.getPlant_name(), plant.getIdeal_temp(), plant.getIdeal_soil(), plant.getIdeal_wind());
+        Plant p = new Plant(plant.getPlant_name(), plant.getId(), plant.getIdeal_temp(), plant.getIdeal_soil(), plant.getIdeal_wind());
         plantRep.add_new_plant(this.logged_user, p);
 
         return "redirect:/";

@@ -78,7 +78,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [username=" + username + "] " + this.plants;
+        return "User [username=" + username + "] " + this.plants + this.warnings;
     }
  
 }

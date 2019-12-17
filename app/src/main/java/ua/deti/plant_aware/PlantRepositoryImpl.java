@@ -45,26 +45,29 @@ public class PlantRepositoryImpl extends MongoTemplate implements PlantRepositor
 			case "PLANT_UPDATE":
 		
 				// Fetch plant ID
-				id = (BigInteger) hm.get("plant_id");
+				id = BigInteger.valueOf((Integer) hm.get("plant_id"));
 
 				// Fetch plant owner without his name -> query with plant ID
 				user = this.findOne(new Query(where("plants").elemMatch(where("id").is(id))), User.class);
-				System.out.println(user);
+
 				// Iterate over the user's plants, get the one with the right ID, update it, rewrite it
 				for (Plant p : user.getPlants()) {
-					if(p.getId() == id){
+					if(p.getId().toString().equals(id.toString())){
 
 						p.addTemp(timestamp, (double) hm.get("temp"));
 						p.addSoil(timestamp, (double) hm.get("soil"));
 						p.addWind(timestamp, (double) hm.get("wind"));
 						
+						System.out.println(("WOSLSOLSOSL"));
 						listener.process(p, (double) hm.get("temp"), (double) hm.get("soil"), (double) hm.get("wind"), timestamp);
 						
 						// Get warnings and add them to the database, associated with the user
 						for (Warning w : listener.getWarnings()) {
+							System.out.println("Adding warning");
 							user.addWarning(w);
-							continue;
 						}
+
+						listener.flush();
 
 						break;
 					}
@@ -118,7 +121,6 @@ public class PlantRepositoryImpl extends MongoTemplate implements PlantRepositor
 
 		this.remove(new Query(where("username").is(username)), User.class);
 		this.insert(user);
-		System.out.println("E VAIS MAIS VEZES!!!");
 
 	}
 
