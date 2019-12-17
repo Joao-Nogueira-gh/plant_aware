@@ -170,19 +170,20 @@
                                         <h2>Notifications</h2>
                                     </div>
 
-                                    <div class="hd-message-info">
+                                    <div th:each="warning : ${warnings}" class="hd-message-info">
                                         <a href="#">
                                             <div class="hd-message-sn" >
                                                 <div class="hd-message-img">
                                                     <img src="img/post/1.jpg" alt="" />
                                                 </div>
                                                 <div class="hd-mg-ctn">
-                                                    <h3>Tulipas</h3>
-                                                    <p>As suas tulipas necessitam de ser regadas</p>
+                                                    <h3 th:text="${warning.ts}">Warning</h3>
+                                                    <p th:text="${warning.w}">As suas tulipas necessitam de ser regadas</p>
                                                 </div>
                                             </div>
                                         </a>
                                     </div>
+
                                     <div class="hd-mg-va">
                                         <a href="#">View All</a>
                                     </div>
@@ -288,67 +289,15 @@
                             </div>
                         </div>
                         <div class="recent-post-items">
-                            <div class="recent-post-signle rct-pt-mg-wp">
+                            <div th:each="warning : ${warnings}" class="recent-post-signle rct-pt-mg-wp">
                                 <a href="#">
                                     <div class="recent-post-flex">
                                         <div class="recent-post-img">
                                             <img src="img/post/2.jpg" alt="" />
                                         </div>
                                         <div class="recent-post-it-ctn">
-                                            <h2>Planta#2</h2>
-                                            <p>Nunc quis diam diamurabitur at dolor elementum, dictum turpis vel</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="recent-post-signle">
-                                <a href="#">
-                                    <div class="recent-post-flex rct-pt-mg">
-                                        <div class="recent-post-img">
-                                            <img src="img/post/1.jpg" alt="" />
-                                        </div>
-                                        <div class="recent-post-it-ctn">
-                                            <h2>John Deo</h2>
-                                            <p>Nunc quis diam diamurabitur at dolor elementum, dictum turpis vel</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="recent-post-signle">
-                                <a href="#">
-                                    <div class="recent-post-flex rct-pt-mg">
-                                        <div class="recent-post-img">
-                                            <img src="img/post/4.jpg" alt="" />
-                                        </div>
-                                        <div class="recent-post-it-ctn">
-                                            <h2>Malika</h2>
-                                            <p>Nunc quis diam diamurabitur at dolor elementum, dictum turpis vel</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="recent-post-signle">
-                                <a href="#">
-                                    <div class="recent-post-flex rct-pt-mg">
-                                        <div class="recent-post-img">
-                                            <img src="img/post/2.jpg" alt="" />
-                                        </div>
-                                        <div class="recent-post-it-ctn">
-                                            <h2>Smith</h2>
-                                            <p>Nunc quis diam diamurabitur at dolor elementum, dictum turpis vel</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="recent-post-signle">
-                                <a href="#">
-                                    <div class="recent-post-flex rct-pt-mg">
-                                        <div class="recent-post-img">
-                                            <img src="img/post/1.jpg" alt="" />
-                                        </div>
-                                        <div class="recent-post-it-ctn">
-                                            <h2>John Deo</h2>
-                                            <p>Nunc quis diam diamurabitur at dolor elementum, dictum turpis vel</p>
+                                            <h2 th:text="${warning.ts}">Planta#2</h2>
+                                            <p th:text="${warning.w}">Nunc quis diam diamurabitur at dolor elementum, dictum turpis vel</p>
                                         </div>
                                     </div>
                                 </a>
@@ -370,9 +319,6 @@
     </div>
     <!-- End Charts area-->
 
-
-
-    <!-- POR CADA PLANTA VAMOS PRECISAR DE UM DESTES (knockout?)-->
 
     <!-- Start Charts area-->
     <div class="notika-email-post-area" style="padding-top: 30px;" th:each="plant : ${all_plants}">
@@ -539,6 +485,15 @@
                                   </div>
                               </div>
                       </div>
+                      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div class="form-example-int form-example-st">
+                            <div class="form-group">
+                                <div class="nk-int-st">
+                                    <input type="number" th:field="*{id}" class="form-control input-sm" placeholder="Sensor ID">
+                                </div>
+                            </div>
+                        </div>
+                </div>
                       <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
                           <div class="form-example-int">
                               <button class="btn btn-success notika-btn-success">Submit</button>

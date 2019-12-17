@@ -1,6 +1,5 @@
 package ua.deti.plant_aware;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import ua.deti.plant_aware.model.*;
@@ -31,12 +30,17 @@ public class Listener {
             this.warnings.add(new Warning("Warning, the wind around your " + p.getPlantname() + " is reaching critical levels", ts));
         }
 
+        System.out.println(this.warnings.size());
+
     }
 
     public ArrayList<Warning> getWarnings(){
-        ArrayList<Warning> ret = this.warnings;
+        return this.warnings;
+    }
+
+    public void flush()
+    {
         this.warnings.clear();
-        return ret;
     }
 
 }

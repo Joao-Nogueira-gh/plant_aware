@@ -1,5 +1,7 @@
 package ua.deti.plant_aware.model;
 
+import java.math.BigInteger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class PlantPost {
@@ -7,6 +9,7 @@ public class PlantPost {
     @Autowired
     private String plant_name;
     private double ideal_temp, ideal_soil, ideal_wind;
+    private BigInteger id;
 
     public PlantPost(){
 
@@ -45,6 +48,15 @@ public class PlantPost {
 
     public void setIdeal_wind(double ideal_wind){
         this.ideal_wind = ideal_wind;
+    }
+
+
+    public BigInteger getId(){
+        return this.id;
+    }
+
+    public void setId(BigInteger id){
+        this.id = id;
     }
 
     public String toString()
